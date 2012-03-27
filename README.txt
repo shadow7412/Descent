@@ -1,4 +1,4 @@
-Database:
+Database
       - Campain ID
       - Action ID
       - Week
@@ -6,6 +6,13 @@ Database:
       - PConquest
       - Gold
 
+Site phase
+      - Load/Create
+	  - OL/PL?
+	      -OL
+		      Overworld
+	  
+	  
 Instance
       - Player death
       - Glyph activation

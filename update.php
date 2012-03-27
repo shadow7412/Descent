@@ -1,0 +1,37 @@
+{
+	"campaignid":0,
+	"phase":0,
+	"isPlayer":false,
+	"instances":{
+		"azurePeaks":{
+			"explored":false,
+			"fled":false,
+			"completed":false
+		}
+	},
+	"cities":{
+		"dallak":{
+			"razed":false,
+			"siege":0
+		}
+	},
+	"heroes":[
+		{
+			"name":"Unnamed",
+			"xp":0,
+			"level":1,
+			"curses":0,
+			"powerdie":3,
+			"skills":1,
+			"traininghealth":0,
+			"trainingfatigue":0
+		}
+	],
+	"hero":{
+		"conquest":0,
+		"gold":0
+	},
+	"overlord":{
+		"conquest":0
+	}
+}
