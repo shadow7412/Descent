@@ -7,18 +7,54 @@ function update(obj){
 		updateJSON(data);
 	}).error(function(){console.error("Updating failed.")});
 }
+//The big update function.
 function updateJSON(d){
-	if(d.message != "") alert(d.message);
+	if(d==null){
+		console.error("Invalid JSON... maybe.");
+		return;
+	}
+	if(d.message != null && d.message != "") alert(d.message);
+	console.log("Updated in "+d.loadtime+" with", d);
 	var totalConquest = d.hero.conquest + d.overlord.conquest;
 	var tier = parseInt(totalConquest/200);
 	var percentThroughTier = ((totalConquest)-(tier*200))/2;
 	$("#graphtotier").progressbar({value: percentThroughTier});
-	console.log("Updated in "+d.loadtime+" with", d);
+	if(d.location="overworld")
+		updateOverworld(d);
+	else 
+		updateInstance(d);	
+}
+function updateOverworld(d){
+	//Make sure overworld is visible
+	$("#"+(isHero?"pl":"ol")+"overworld").removeClass("invisible");
+	$("#"+(isHero?"pl":"ol")+"instance").addClass("invisible");
+}
+function updateInstance(d){
+	//make sure instance is visible
+	$("#"+(isHero?"pl":"ol")+"overworld").addClass("invisible");
+	$("#"+(isHero?"pl":"ol")+"instance").removeClass("invisible");
 }
 function createCampaign(){
-	$("#newcampaign").dialog();
+	//Open all creation dialogs, in reverse order so correct one is on top
+	$("#setup1").removeClass("invisible");
+}
+function completeSetup(form){
+	$("#loadblock").removeClass("invisible");
+	$.post("operations/create.php",
+		$(form).serialize(),
+		function(data,textStatus,xhr){
+			$("#loadblock").addClass("invisible");
+			if(data=="failed"){
+				alert("Creating this campaign failed :(")
+				console.log(xhr);
+			} else {
+				selectCampaign(data);
+			}
+		}
+	);
 }
 function deleteCampaign(id,element){
+	$.post("operations/delete.php","id="+id,function(){console.log("success")});
 	element.outerHTML = "";
 }
 function selectCampaign(id){
@@ -30,11 +66,8 @@ function setPlayer(p){ //true = heroes
 	isHero = p;
 	$("#whichside").addClass('invisible');
 	$(".control").removeClass('invisible');
-	if(p) $("#ploverworld").removeClass('invisible');
-	else $("#oloverworld").removeClass('invisible');
 	update();
 	timer = setInterval("update()",pollRate);
-	location.hash = (p?"h":"o")+"w";
 }
 function startInstance(town){
 	if(isHero){

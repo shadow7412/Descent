@@ -24,7 +24,7 @@ class db {
 		//As the database may be called from either a page or the index, cover both scenarios.
 		if(file_exists("../config/settings.php"))
 			require "../config/settings.php";
-		if(file_exists("config/settings.php"))
+		else if(file_exists("config/settings.php"))
 			require "config/settings.php";
 		else 
 			die("Settings file not found. Please see documentation.");
