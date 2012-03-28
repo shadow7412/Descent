@@ -10,6 +10,15 @@
 	</head>
 	<body>
 		<button onclick="update()">Refresh</button>
-		<div id=""></div>
+		<div class="main" id="newload">
+		<?php 
+			
+		?>
+		</div>
+		<div class="main invisible" id="whichside"></div>
+		<div class="main invisible" id="oloverworld"></div>
+		<div class="main invisible" id="ploverworld"></div>
+		<div class="main invisible" id="olinstance"></div>
+		<div class="main invisible" id="plinstance"></div>
 	</body>
 </html>

@@ -8,9 +8,9 @@ Database
 
 Site phase
       - Load/Create
-	  - OL/PL?
-	      -OL
-		      Overworld
+	  - OverLord or Player view?
+	  - Overworld
+	  - Instance
 	  
 	  
 Instance

@@ -1,0 +1,10 @@
+.invisible{
+	display:none;
+}
+.main {
+	padding:0px;
+	margin:0px;
+	min-width:100%;
+	min-height:100%;
+	background-color:#EEE;
+}

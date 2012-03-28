@@ -1,4 +1,5 @@
 {
+	"message":null,
 	"campaignid":0,
 	"phase":0,
 	"isPlayer":false,
