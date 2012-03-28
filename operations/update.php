@@ -61,10 +61,31 @@ if(isset($do)){
 			//player
 		case("chest"):
 			//roll
+		case("glyph"):
+			action("Unlocked Glyph",3);
 		case("kill"):
-			//master/boss/finalboss/lieutenant	
-		case("exit"):
-		case("flee"):
+		//master/boss/finalboss/lieutenant
+			switch ($to){
+				case("master"):
+					$bones['heroes']['gold'] += 50;
+					action("Killed Master",0,50);
+					break;
+				case("boss"):
+					$bones['heroes']['gold'] += 50;
+					action("Killed Boss",0,100);
+					break;
+				case("fboss"):
+					$bones['heroes']['gold'] += 200;
+					action("Killed Final Boss",0,50);
+					break;
+				case("lieutenant"):
+					$bones['heroes']['conquest'] += 5;
+					$bones['heroes']['money'] += 200;
+					action("Killed Lieutentant",5,200);
+					break;
+			}
+		break;
+		case("finish"):
 			//update tier
 			//set location to overworld
 		default:
