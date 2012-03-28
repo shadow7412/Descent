@@ -18,11 +18,20 @@ html, body {
 	margin:20px;
 	text-align:center;
 }
+.campaignselect.bronze{
+	background:rgb(150,90,56);
+}
+.campaignselect.silver{
+	background:rgb(168,168,168);
+}
+.campaignselect.gold{
+	background:rgb(201,137,16);
+}
 .campaignselect th {
 	text-align:left;
 }
 .campaignselect:hover {
-	background:#BBB;
+	background:#AAF;
 }
 .campaignselect input {
 	width:100px;

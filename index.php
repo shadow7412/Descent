@@ -82,11 +82,30 @@ $db = new db;
 				</div>
 			</form>
 			<?php 
+				$tiers = array("bronze","silver","gold","platinum");
 				$db->query("SELECT * FROM `campaign` WHERE `deleted`=0 ORDER BY `id` DESC");
 				while($row = $db->get()){
-					echo "<table onclick=\"selectCampaign({$row['id']})\" oncontextmenu=\"if(confirm('Do you REALLY want to delete this campaign?')) deleteCampaign({$row['id']},this); return false;\" class=\"campaignselect\">
+					$d = json_decode($row['state'],true);
+					echo "<table onclick=\"selectCampaign({$row['id']})\" oncontextmenu=\"if(confirm('Do you REALLY want to delete this campaign?')) deleteCampaign({$row['id']},this); return false;\" class=\"campaignselect {$tiers[$d['tier']]}\">
 						<tr>
-							<td>last played: {$row['played']}</td>
+							<td>Overlord: {$d['overlord']['player']}</td>
+							<td>Player 1: {$d['hero'][0]['player']}</td>
+							<td>{$d['hero'][0]['hero']}</td>
+						</tr>
+						<tr>
+							<td>Avatar: {$d['overlord']['avatar']}</td>
+							<td>Player 2: {$d['hero'][1]['player']}</td>
+							<td>{$d['hero'][1]['hero']}</td>
+						</tr>
+						<tr>
+							<td>Plot: {$d['overlord']['plot']}</td>
+							<td>Player 3: {$d['hero'][2]['player']}</td>
+							<td>{$d['hero'][2]['hero']}</td>
+						</tr>
+						<tr>
+							<td>Plot: {$d['overlord']['plot']}</td>
+							<td>Player 4: {$d['hero'][3]['player']}</td>
+							<td>{$d['hero'][3]['hero']}</td>
 						</tr>
 					</table>";
 				}
