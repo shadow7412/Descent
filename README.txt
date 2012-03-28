@@ -1,17 +1,8 @@
-Database
-      - Campain ID
-      - Action ID
-      - Week
-      - OLConquest
-      - PConquest
-      - Gold
-
 Site phase
       - Load/Create
 	  - OverLord or Player view?
 	  - Overworld
 	  - Instance
-	  
 	  
 Instance
       - Player death

@@ -13,7 +13,11 @@ $db = new db;
 		<script type="text/javascript" src="comprise/descent.js"></script>
 	</head>
 	<body>
-		<button onclick="update()" oncontextmenu="window.open('update.php');return false">Refresh</button>
+		<div class="control invisible">
+			<button onclick="update()" oncontextmenu="window.open('update.php');return false">Refresh</button>
+			<button onclick="pause(this)">Pause</button>
+			<div id="graphtotier"></div>
+		</div>
 		<div class="main" id="newload"><center>Select a campaign:
 			<table class="campaignselect">
 				<tr>
@@ -66,9 +70,17 @@ $db = new db;
 			<div style="float:left" onclick="setPlayer(true)">Overlord</div>
 			<div style="float:right" onclick="setPlayer(true)">Heroes</div>
 		</div>
-		<div class="main invisible" id="oloverworld">Overlord - overworld</div>
-		<div class="main invisible" id="ploverworld">Heroes - overworld</div>
-		<div class="main invisible" id="olinstance">Overlord - instance</div>
-		<div class="main invisible" id="plinstance">Heroes - instance</div>
+		<div class="main invisible" id="oloverworld">
+			Overlord - overworld
+		</div>
+		<div class="main invisible" id="ploverworld">
+			Heroes - overworld
+		</div>
+		<div class="main invisible" id="olinstance">
+			Overlord - instance
+		</div>
+		<div class="main invisible" id="plinstance">
+			Heroes - instance
+		</div>
 	</body>
 </html>
