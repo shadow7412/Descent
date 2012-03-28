@@ -12,11 +12,12 @@ $db = new db;
 		<script type="text/javascript" src="comprise/jquery-ui-1.8.18.custom.min.js"></script>
 		<script type="text/javascript" src="comprise/descent.js"></script>
 	</head>
-	<body>
+	<body onload="checkHash()">
 		<div id="loadblock" class="ui-widget-overlay invisible" style="z-index: 1001; width: 100%; height: 100%; "></div>
 		<div class="control invisible">
-			<button onclick="update()" oncontextmenu="window.open('operations/update.php');return false">Refresh</button>
+			<button onclick="refresh()" oncontextmenu="window.open('operations/update.php');return false">Refresh</button>
 			<button onclick="pause(this)">Pause</button>
+			<button onclick="exit()">Exit</button>
 			<div id="graphtotier"></div>
 		</div>
 		<div class="main" id="newload"><center>Select a campaign:
@@ -24,7 +25,7 @@ $db = new db;
 				<tr><td>New Campaign</td></tr>
 			</table>
 			<form id="newcampaign">
-				<div id="setup1" class="invisible" title="New Campaign - Overlord">
+				<div id="setup1" class="invisible setup" title="New Campaign - Overlord">
 				<h2>Overlord Setup</h2>
 					<table>
 					<tr><td>Overlord's Name</td><td><input name="oname"/></td></tr>
@@ -34,7 +35,7 @@ $db = new db;
 					<tr><td><button onclick="$($(this).parents('div')[0]).next().removeClass('invisible'); $($(this).parents('div')[0]).addClass('invisible');return false">Next</button></td></tr>
 					</table>
 				</div>
-				<div id="setup2" class="invisible" title="New Campaign - Starting stats">
+				<div id="setup2" class="invisible setup" title="New Campaign - Starting stats">
 				<h2>Intial Stats Setup</h2>
 					<table>
 					<tr><td>Starting Conquest</td><td><input name="hconquest"/></td></tr>
@@ -43,7 +44,7 @@ $db = new db;
 					<tr><td><button onclick="$($(this).parents('div')[0]).next().removeClass('invisible'); $($(this).parents('div')[0]).addClass('invisible');return false">Next</button></td></tr>
 					</table>
 				</div>
-				<div id="setup3" class="invisible" title="New Campaign - Player 1">
+				<div id="setup3" class="invisible setup" title="New Campaign - Player 1">
 				<h2>Player 1 Setup</h2>
 					<table>
 					<tr><td>Player's Name</td><td><input name="h1player"/></td></tr>
@@ -52,7 +53,7 @@ $db = new db;
 					<tr><td><button onclick="$($(this).parents('div')[0]).next().removeClass('invisible'); $($(this).parents('div')[0]).addClass('invisible');return false">Next</button></td></tr>
 					</table>
 				</div>
-				<div id="setup4" class="invisible" title="New Campaign - Player 2">
+				<div id="setup4" class="invisible setup" title="New Campaign - Player 2">
 				<h2>Player 2 Setup</h2>
 					<table>
 					<tr><td>Player's Name</td><td><input name="h2player"/></td></tr>
@@ -61,7 +62,7 @@ $db = new db;
 					<tr><td><button onclick="$($(this).parents('div')[0]).next().removeClass('invisible'); $($(this).parents('div')[0]).addClass('invisible');return false">Next</button></td></tr>
 					</table>
 				</div>
-				<div id="setup5" class="invisible" title="New Campaign - Player 3">
+				<div id="setup5" class="invisible setup" title="New Campaign - Player 3">
 				<h2>Player 3 Setup</h2>
 					<table>
 					<tr><td>Player's Name</td><td><input name="h3player"/></td></tr>
@@ -70,7 +71,7 @@ $db = new db;
 					<tr><td><button onclick="$($(this).parents('div')[0]).next().removeClass('invisible'); $($(this).parents('div')[0]).addClass('invisible');return false">Next</button></td></tr>
 					</table>
 				</div>
-				<div id="setup6" class="invisible" title="New Campaign - Player 4">
+				<div id="setup6" class="invisible setup" title="New Campaign - Player 4">
 				<h2>Player 4 Setup</h2>
 					<table>
 					<tr><td>Player's Name</td><td><input name="h4player"/></td></tr>
@@ -93,20 +94,41 @@ $db = new db;
 			</center>
 		</div>
 		<div class="main invisible" id="whichside">
-			<div style="float:left" onclick="setPlayer(true)">Overlord</div>
+			<div style="float:left" onclick="setPlayer(false)">Overlord</div>
 			<div style="float:right" onclick="setPlayer(true)">Heroes</div>
 		</div>
 		<div class="main invisible" id="oloverworld">
 			Overlord - overworld
 		</div>
 		<div class="main invisible" id="ploverworld">
-			Heroes - overworld
+			City:
+			<ul>
+				<li>Train</li>
+				<li>Alchemist</li>
+				<li>Port</li>
+				<li>Pub</li>
+			</ul>
+			Enter Instance:
+			<ul class="instances"></ul>
 		</div>
 		<div class="main invisible" id="olinstance">
 			Overlord - instance
 		</div>
 		<div class="main invisible" id="plinstance">
-			Heroes - instance
+			Stats:
+			<ul class="playerstats">
+			</ul>
+			<ul>
+				<li onclick="event('kill','master')">Kill Master</li>
+				<li onclick="event('kill','boss')">Kill Boss</li>
+				<li onclick="event('kill','fboss')">Kill Final Boss</li>
+				<li onclick="event('glyph')">Unlock glyph</li>
+				<li onclick="event('chest','')">Treasure Chest</li>
+				<li onclick="event('barrel','')">Opened Barrel</li>
+				<li onclick="event('finish','flee')">Flee</li>
+				<li onclick="event('finish','level')">Finish level</li>
+				<li onclick="event('finish','dungeon')">Finish dungeon</li>
+			</ul>
 		</div>
 	</body>
 </html>

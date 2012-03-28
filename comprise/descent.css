@@ -27,6 +27,9 @@ html, body {
 .campaignselect input {
 	width:100px;
 }
+.setup{
+	background:#BBB;
+}
 #whichside {
 	height:100%;
 	width:100%;

@@ -20,7 +20,7 @@ class db {
 	function __construct(){
 		
 		//If the database class is already instantitated, use the current connection instead of making another.
-		if(self::$connections++==1 && !$override) return false;
+		if(self::$connections++==1) return false;
 		//As the database may be called from either a page or the index, cover both scenarios.
 		if(file_exists("../config/settings.php"))
 			require "../config/settings.php";

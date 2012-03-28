@@ -8,6 +8,8 @@ $cities = array("razed"=>false,"discovered"=>false);
 //Create new campaign
 $bones = array(
 	"loadtime"=>0,
+	"tier"=>0,
+	"week"=>0,
 	"overlord"=>array(
 		"player"=>$_POST['oname'],
 		"plot"=>$_POST['oplot'],
