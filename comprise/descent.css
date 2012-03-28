@@ -16,6 +16,7 @@ html, body {
 	width:600px;
 	height:100px;
 	margin:20px;
+	text-align:center;
 }
 .campaignselect th {
 	text-align:left;

@@ -14,52 +14,25 @@ $db = new db;
 	</head>
 	<body>
 		<div class="control invisible">
-			<button onclick="update()" oncontextmenu="window.open('update.php');return false">Refresh</button>
+			<button onclick="update()" oncontextmenu="window.open('operations/update.php');return false">Refresh</button>
 			<button onclick="pause(this)">Pause</button>
 			<div id="graphtotier"></div>
 		</div>
 		<div class="main" id="newload"><center>Select a campaign:
-			<table class="campaignselect">
-				<tr>
-					<th><input type="submit" value="Create"></th>
-					<th><input name="overlord" value="overlord"/></th>
-					<th><input name="plot" value="plot"/></th>
-					<th><input name="avatar" value="avatar"/></th>
-				</tr>
-				<tr>
-					<td><input name="hero1" value="hero1"/></td>
-					<td><input name="hero2" value="hero2"/></td>
-					<td><input name="hero3" value="hero3"/></td>
-					<td><input name="hero4" value="hero4"/></td>
-				</tr>
-				<tr>
-					<td><input name="player1" value="player1"/></td>
-					<td><input name="player2" value="player2"/></td>
-					<td><input name="player3" value="player3"/></td>
-					<td><input name="player4" value="player4"/></td>
-				</tr>
+			<table onclick="createCampaign()" class="campaignselect">
+				<tr><td>New Campaign</td></tr>
 			</table>
+			<form id="newcampaign" title="New Campaign Setup" class="invisible">
+				NOT YET IMPLEMENTED
+			</form>
 			<?php 
 				$db->query("SELECT * FROM `campaign` ORDER BY `id` DESC");
 				while($row = $db->get()){
-					echo "<table onclick=\"selectCampaign({$row['id']})\" class=\"campaignselect\">
+					echo "<table onclick=\"selectCampaign({$row['id']})\" oncontextmenu=\"if(confirm('Do you REALLY want to delete this campaign?')) deleteCampaign({$row['id']},this); return false;\" class=\"campaignselect\">
 						<tr>
-							<th>ID: {$row['id']}</th>
-							<th>{$row['overlord']}</th>
-							<th>{$row['plot']}</th>
-							<th>{$row['avatar']}</th>
-						</tr>
-						<tr>
-							<td>{$row['hero1']}</td>
-							<td>{$row['hero2']}</td>
-							<td>{$row['hero3']}</td>
-							<td>{$row['hero4']}</td>
-						</tr>
-						<tr>
-							<td>{$row['player1']}</td>
-							<td>{$row['player2']}</td>
-							<td>{$row['player3']}</td>
-							<td>{$row['player4']}</td>
+							<td>{$row['overlord']}</td>
+							<td>{$row['plot']}</td>
+							<td>{$row['avatar']}</td>
 						</tr>
 					</table>";
 				}

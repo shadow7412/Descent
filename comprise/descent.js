@@ -3,7 +3,7 @@ var campaign = null;
 var timer = null
 var pollRate = 5000;
 function update(obj){
-	$.getJSON("update.php?cid="+campaign,null,function(data,textStatus,xhr){
+	$.getJSON("operations/update.php","cid="+campaign,function(data,textStatus,xhr){
 		updateJSON(data);
 	}).error(function(){console.error("Updating failed.")});
 }
@@ -15,6 +15,12 @@ function updateJSON(d){
 	$("#graphtotier").progressbar({value: percentThroughTier});
 	console.log("Updated in "+d.loadtime+" with", d);
 }
+function createCampaign(){
+	$("#newcampaign").dialog();
+}
+function deleteCampaign(id,element){
+	element.outerHTML = "";
+}
 function selectCampaign(id){
 	campaign = id;
 	$("#newload").addClass("invisible");
@@ -24,10 +30,21 @@ function setPlayer(p){ //true = heroes
 	isHero = p;
 	$("#whichside").addClass('invisible');
 	$(".control").removeClass('invisible');
-	if(p) $("#ploverworld").removeClass('invisible')
-	else $("#oloverworld").removeClass('invisible')
+	if(p) $("#ploverworld").removeClass('invisible');
+	else $("#oloverworld").removeClass('invisible');
 	update();
 	timer = setInterval("update()",pollRate);
+	location.hash = (p?"h":"o")+"w";
+}
+function startInstance(town){
+	if(isHero){
+		$("#ploverworld").addClass('invisible');
+		$("#plinstance").removeClass('invisible');
+	} else {
+		$("#oloverworld").addClass('invisible');
+		$("#olinstance").removeClass('invisible');
+	}
+	
 }
 function pause(button){
 	if(button.innerHTML == "Pause"){
