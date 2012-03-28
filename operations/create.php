@@ -105,8 +105,11 @@ if(@$db->query("INSERT INTO `campaign` (`created`,`state`) VALUES (CURRENT_TIMES
 	$db->commit();
 	$db->query("SELECT `id` FROM `campaign` ORDER BY `id` DESC LIMIT 1");
 	$row = $db->get();
+	$cid = $row['id'];
+	//Create initial log
+	$db->query("INSERT INTO `log` (`campaign`,`actionid`,`week`,`summary`,`player`,`gold`,`overlord`) VALUES ('$cid','0','0','Campaign begins','{$_POST['hconquest']}','{$_POST['hgold']}','{$_POST['oconquest']}')");
 	//Reply with campaign id
-	echo $row['id'];
+	echo $cid;
 } else {
 	echo "failed";
 }

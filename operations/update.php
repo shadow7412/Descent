@@ -6,13 +6,18 @@ function error($a){
 	$bones['message'] = $a;
 	die(json_encode($bones));
 }
-function action($action,$player = 0,$gold = 0,$overlord = 0){
-	global $week,$cid;
+function action($action,$player = 0,$gold = 0,$overlord = 0,$hero = null,$xp = 0){
+	global $week,$cid,$bones;
 	$db = new db;
 	$aid = 0;
+	//add to log
 	$db->query("SELECT MAX(`actionid`) AS 'aid' FROM `log` WHERE `campaign`='$cid'");
 	if($row = $db->get()) $aid = $row['aid']+1;
 	$db->query("INSERT INTO `log` (`campaign`,`actionid`,`week`,`summary`,`player`,`gold`,`overlord`) VALUES ('$cid','$aid','$week','$action','$player','$gold','$overlord')");
+	//update state
+	$bones['heroes']['conquest'] += $player;
+	$bones['heroes']['gold'] += $gold;
+	$bones['overlord']['conquest'] += $overlord;
 }
 if(!isset($_GET['cid'])){
 	error("Campaign ID not supplied.");
@@ -67,20 +72,15 @@ if(isset($do)){
 		//master/boss/finalboss/lieutenant
 			switch ($to){
 				case("master"):
-					$bones['heroes']['gold'] += 50;
 					action("Killed Master",0,50);
 					break;
 				case("boss"):
-					$bones['heroes']['gold'] += 50;
-					action("Killed Boss",0,100);
+					action("Killed Boss",5,100);
 					break;
 				case("fboss"):
-					$bones['heroes']['gold'] += 200;
 					action("Killed Final Boss",0,50);
 					break;
 				case("lieutenant"):
-					$bones['heroes']['conquest'] += 5;
-					$bones['heroes']['money'] += 200;
 					action("Killed Lieutentant",5,200);
 					break;
 			}

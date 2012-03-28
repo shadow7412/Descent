@@ -14,19 +14,16 @@ function updateJSON(de){
 		console.error("Invalid JSON... maybe.");
 		return;
 	}
-	d = de;
+	d = de; //pump it out into global space
 	if(d.message != null && d.message != "") alert(d.message);
-	console.log("Updated in "+d.loadtime+" with", d);
-	var totalConquest = de.hero.conquest + de.overlord.conquest;
-	var tier = parseInt(totalConquest/200);
-	var percentThroughTier = ((totalConquest)-(tier*200))/2;
-	$("#graphtotier").progressbar({value: percentThroughTier});
+	$("#graphtotier").progressbar({value: (((d.heroes.conquest + d.overlord.conquest)-(d.tier*200))/2)});//progress bar will autocap at 100%
+	$("#ticker").html("Hero Conquest: "+d.heroes.conquest+", Hero Gold: "+d.heroes.gold+", Overlord Conquest: "+d.overlord.conquest);
 	if(d.heroes.location=="overworld")
-		updateOverworld(de);
+		updateOverworld(d);
 	else 
-		updateInstance(de);	
+		updateInstance(d);	
 }
-function updateOverworld(d){
+function updateOverworld(){
 	//Make sure overworld is visible
 	$("#"+(isHero?"pl":"ol")+"overworld").removeClass("invisible");
 	$("#"+(isHero?"pl":"ol")+"instance").addClass("invisible");
@@ -45,14 +42,10 @@ function updateOverworld(d){
 	}
 	$(".instances").html(instances);
 }
-function updateInstance(d){
+function updateInstance(){
 	//make sure instance is visible
 	$("#"+(isHero?"pl":"ol")+"overworld").addClass("invisible");
 	$("#"+(isHero?"pl":"ol")+"instance").removeClass("invisible");
-	var stats = "<li>Gold: "+d.heroes.gold;
-	   stats += "</li><li>Conquest: "+d.heroes.conquest;
-	   stats += "</li>";
-	$(".playerstats").html(stats);
 }
 function createCampaign(){
 	//Open first campaign creation div
@@ -94,7 +87,10 @@ function startInstance(name){
 	if(d.instances[name].fled||d.instances[name].completed){
 		alert("You cannot enter a completed instance.");
 	} else {
-		event("enter",name);
+		if(confirm("Do you want to enter "+name+"?"))
+			event("enter",name);
+		else
+			event("discover",name);
 	}
 }
 function event(type,to){

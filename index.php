@@ -18,7 +18,8 @@ $db = new db;
 			<button onclick="refresh()" oncontextmenu="window.open('operations/update.php');return false">Refresh</button>
 			<button onclick="pause(this)">Pause</button>
 			<button onclick="exit()">Exit</button>
-			<div id="graphtotier">Conquest until next tier</div>
+			<div id="graphtotier"></div>
+			<div id="ticker"></div>
 		</div>
 		<div class="main" id="newload"><center>Select a campaign:
 			<table onclick="createCampaign()" class="campaignselect">
@@ -141,6 +142,7 @@ $db = new db;
 				<li onclick="event('kill','master')">Kill Master</li>
 				<li onclick="event('kill','boss')">Kill Boss</li>
 				<li onclick="event('kill','fboss')">Kill Final Boss</li>
+				<li onclick="event('kill','lieutenant')">Kill Lieutenant</li>
 				<li onclick="event('glyph')">Unlock glyph</li>
 				<li onclick="event('chest')">Treasure Chest</li>
 				<li onclick="event('barrel')">Opened Barrel</li>
