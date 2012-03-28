@@ -86,6 +86,21 @@ if(isset($do)){
 			}
 		break;
 		case("finish"):
+		//level,flee,dungeon
+			switch ($to){
+				case ("level"):
+					//CONQUEST/MONEY HERE
+					break;
+				case ("dungeon"):
+					$bones['instances'][$bones['heroes']['location']]['completed'] = true;
+					//CONQUEST/MONEY HERE
+					$bones['heroes']['location'] = "overworld";
+					break;
+				case ("flee"):
+					$bones['instances'][$bones['heroes']['location']]['fled'] = true;
+					$bones['heroes']['location'] = "overworld";
+					break;
+			}
 			//update tier
 			//set location to overworld
 		default:

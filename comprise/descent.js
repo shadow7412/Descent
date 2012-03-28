@@ -17,14 +17,14 @@ function updateJSON(de){
 	d = de;
 	if(d.message != null && d.message != "") alert(d.message);
 	console.log("Updated in "+d.loadtime+" with", d);
-	var totalConquest = d.hero.conquest + d.overlord.conquest;
+	var totalConquest = de.hero.conquest + de.overlord.conquest;
 	var tier = parseInt(totalConquest/200);
 	var percentThroughTier = ((totalConquest)-(tier*200))/2;
 	$("#graphtotier").progressbar({value: percentThroughTier});
 	if(d.heroes.location=="overworld")
-		updateOverworld(d);
+		updateOverworld(de);
 	else 
-		updateInstance(d);	
+		updateInstance(de);	
 }
 function updateOverworld(d){
 	//Make sure overworld is visible
@@ -32,7 +32,16 @@ function updateOverworld(d){
 	$("#"+(isHero?"pl":"ol")+"instance").addClass("invisible");
 	var instances = "";
 	for(instance in d.instances){
-		instances += "<li onclick=\"startInstance('"+instance+"')\">"+instance+" - "+(d.instances[instance].discovered?"Explored":"Unexplored")+"</li>"
+		instances += "<li onclick=\"startInstance('"+instance+"')\">"+instance+" - ";
+		if(d.instances[instance].completed)
+			instances+="Completed";
+		else if(d.instances[instance].fled)
+			instances+="Fled";
+		else if(d.instances[instance].discovered)
+			instances+="Discovered";
+		else
+			instances+="Not Discovered";
+		instances+="</li>"
 	}
 	$(".instances").html(instances);
 }
@@ -40,6 +49,10 @@ function updateInstance(d){
 	//make sure instance is visible
 	$("#"+(isHero?"pl":"ol")+"overworld").addClass("invisible");
 	$("#"+(isHero?"pl":"ol")+"instance").removeClass("invisible");
+	var stats = "<li>Gold: "+d.heroes.gold;
+	   stats += "</li><li>Conquest: "+d.heroes.conquest;
+	   stats += "</li>";
+	$(".playerstats").html(stats);
 }
 function createCampaign(){
 	//Open first campaign creation div
