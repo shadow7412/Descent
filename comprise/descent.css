@@ -69,10 +69,16 @@ ul.box li:hover{
 }
 #whichside div {
 	text-align:center;
-	vertical-align:middle;
 	height:100%;
 	width:50%;
 }
+#whichside span {
+	display:block;
+	height:30%;
+}
 #whichside div:hover {
 	background:#BBB;
+}
+#whichside img{
+	top:50%;
 }

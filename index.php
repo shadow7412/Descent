@@ -23,8 +23,8 @@ $db = new db;
 		</div>
 		<div class="main" id="newload"><?php include "pages/newload.php";?></div>
 		<div class="main invisible" id="whichside">
-			<div style="float:left" onclick="setPlayer(false)">Overlord</div>
-			<div style="float:right" onclick="setPlayer(true)">Heroes</div>
+			<div style="float:left" onclick="setPlayer(false)"><span></span><img alt="Overlord" src="comprise/images/threat-token.png"></div>
+			<div style="float:right" onclick="setPlayer(true)"><span></span><img alt="Heroes" src="comprise/images/heroes-figures.png"></div>
 		</div>
 		<div class="main invisible" id="oloverworld"><?php include "pages/oloverworld.php";?></div>
 		<div class="main invisible" id="ploverworld"><?php include "pages/ploverworld.php";?></div>
