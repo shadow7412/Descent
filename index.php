@@ -8,14 +8,12 @@ $db = new db; //Create database object
 		<title>Descent</title>
 		<link rel="stylesheet" type="text/css" href="comprise/jquery-ui-1.8.18.custom.css" />
 		<link rel="stylesheet" type="text/css" href="comprise/descent.css" />
-		<script type="text/javascript" src="comprise/jquery-1.7.2.min.js"></script>
-		<script type="text/javascript" src="comprise/jquery-ui-1.8.18.custom.min.js"></script>
-		<script type="text/javascript" src="comprise/descent.js"></script>
+		<script type="text/javascript" src="comprise/js.php"></script>
 	</head>
 	<body onload="checkHash()">
 		<div id="loadblock" class="ui-widget-overlay invisible" style="z-index: 1001; width: 100%; height: 100%;"><!-- For display when we don't want to recieve input --></div>
-		<div id="dialog" class="invisible" title="Message"><!-- To replace alert()--></div>
-		<div id="instance" class="invisible">
+		<div id="dialog" class="invisible" title="Message"></div>
+		<div id="instance" class="invisible"v>
 			Information about already completed instance
 		</div>
 		<div class="control invisible">

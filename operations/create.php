@@ -28,7 +28,7 @@ $bones = array(
 		"plot"=>$_POST['oplot'],
 		"avatar"=>$_POST['oavatar'],
 		"conquest"=>intVal($_POST['oconquest']),
-		"spentconquest"=>0,
+		"xp"=>0,
 		"keep"=>$_POST['okeep'],
 	),
 	"heroes"=>array(
@@ -125,7 +125,8 @@ $json = json_encode($bones);
 if($json===false) die("failed");
 //Place state into db.
 $dbjson = mysql_real_escape_string($json);
-if(@$db->query("INSERT INTO `campaign` (`created`,`state`) VALUES (CURRENT_TIMESTAMP, '$dbjson')")){
+$password = md5($_POST['password']);
+if(@$db->query("INSERT INTO `campaign` (`created`,`state`,`password`) VALUES (CURRENT_TIMESTAMP, '$dbjson','$password')")){
 	$db->commit();
 	$db->query("SELECT `id` FROM `campaign` ORDER BY `id` DESC LIMIT 1");
 	$row = $db->get();
