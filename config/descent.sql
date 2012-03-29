@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Mar 29, 2012 at 11:35 AM
+-- Generation Time: Mar 29, 2012 at 10:56 PM
 -- Server version: 5.5.20
 -- PHP Version: 5.3.10
 
@@ -19,6 +19,7 @@ SET time_zone = "+00:00";
 --
 -- Database: `descent`
 --
+DROP DATABASE `descent`;
 CREATE DATABASE `descent` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
 USE `descent`;
 
@@ -34,9 +35,10 @@ CREATE TABLE IF NOT EXISTS `campaign` (
   `created` timestamp NULL DEFAULT NULL,
   `played` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `state` varchar(9999) NOT NULL,
+  `password` varchar(32) NOT NULL DEFAULT 'd41d8cd98f00b204e9800998ecf8427e',
   `deleted` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=0 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -57,7 +59,7 @@ CREATE TABLE IF NOT EXISTS `log` (
   `hero` int(11) NOT NULL,
   `xp` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=0 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
