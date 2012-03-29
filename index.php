@@ -1,7 +1,7 @@
 <?php
-ob_start("ob_gzhandler");
+ob_start("ob_gzhandler"); //Gzip page
 require_once "include/db.php";
-$db = new db;
+$db = new db; //Create database object
 ?><!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 	<head>
@@ -13,7 +13,11 @@ $db = new db;
 		<script type="text/javascript" src="comprise/descent.js"></script>
 	</head>
 	<body onload="checkHash()">
-		<div id="loadblock" class="ui-widget-overlay invisible" style="z-index: 1001; width: 100%; height: 100%;"></div>
+		<div id="loadblock" class="ui-widget-overlay invisible" style="z-index: 1001; width: 100%; height: 100%;"><!-- For display when we don't want to recieve input --></div>
+		<div id="dialog" class="invisible" title="Message"><!-- To replace alert()--></div>
+		<div id="instance" class="invisible">
+			Information about already completed instance
+		</div>
 		<div class="control invisible">
 			<button onclick="refresh()" oncontextmenu="window.open('operations/update.php?cid='+campaign);return false">Refresh</button>
 			<button onclick="pause(this)">Pause</button>

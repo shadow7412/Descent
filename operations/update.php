@@ -77,8 +77,13 @@ if(isset($do)){
 			//player
 		case("chest"):
 			//roll
+		case("deck"):
+			//overlord gets through deck
+			action("Overlord Deck renewed",0,0,3);
+			break;
 		case("glyph"):
 			action("Unlocked Glyph",3);
+			break;
 		case("kill"):
 			//master/boss/finalboss/lieutenant
 			switch ($to){
@@ -95,7 +100,7 @@ if(isset($do)){
 					action("Killed Lieutentant",5,200);
 					break;
 			}
-		break;
+			break;
 		case("finish"):
 		//level,flee,dungeon
 			switch ($to){

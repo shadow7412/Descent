@@ -8,6 +8,16 @@ It must:
 	- Not replace anything BUT the notepad. (For example, we don't care how many treasure maps we have - we have tokens for that)
 	- Be nice on a tablet (touchscreen)
 
+Coding Conventions
+	For javascript ids:
+	[h|o][o|i|v][subject]
+	Meaning:
+		Hero|Overlord view
+		Overworld|Instance|overView
+		Whatever is being populated (hero names? whatever...)
+
+
+
 Bugs/Issues
 - If the state gets corrupt, it isn't recoverable. (Hasn't happened, but just throwing it out there)
 	- We could use the log to recreate the game state, just step through it all and 'replay' the game.

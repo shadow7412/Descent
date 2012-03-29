@@ -1,7 +1,7 @@
 Stats:
 <ul class="playerstats">
 </ul>
-<ul>
+<ul class="box">
 	<li onclick="event('kill','master')">Kill Master</li>
 	<li onclick="event('kill','boss')">Kill Boss</li>
 	<li onclick="event('kill','fboss')">Kill Final Boss</li>

@@ -11,7 +11,6 @@ var campaign = null; //The id of the campaign
 var timer = null;    //The timer reference - so it can be cancelled
 var d = null;        //The big d. Contains the full game state.
 
-
 /* Update functions */
 function updateJSON(de){
 	if(de==null){
@@ -23,34 +22,45 @@ function updateJSON(de){
 	}
 	d = de; //pump it out into global space
 	$('#loadblock').addClass('invisible');//remove pane if it was showing
-	if(d.message != null && d.message != "") alert(d.message);
+	if(d.message != null && d.message != ""){
+		$('#dialog').html(d.message);
+		$('#dialog').dialog();
+	}
 	$("#graphtotier").progressbar({value: (((d.heroes.conquest + d.overlord.conquest)-(d.tier*200))/2)});//progress bar will autocap at 100%
-	$("#ticker").html("Hero Conquest: "+d.heroes.conquest+", Hero Gold: "+d.heroes.gold+", Overlord Conquest: "+d.overlord.conquest);
+	$("#ticker").html("Hero Conquest: "+d.heroes.conquest+", Hero Gold: "+d.heroes.gold+", Overlord Conquest: "+d.overlord.conquest+", Divine Favour:"+parseInt(d.heroes.conquest-d.overlord.conquest)/25);
 	//update the applicable view:
 	if(d.heroes.location=="overworld")
 		updateOverworld();
 	else 
 		updateInstance();	
 }
+function message(message){
+	$('#dialog').html(message);
+	$('#dialog').dialog();
+}
 function updateOverworld(){
 	//Make sure overworld is visible
 	$("#"+(isHero?"pl":"ol")+"overworld").removeClass("invisible");
 	$("#"+(isHero?"pl":"ol")+"instance").addClass("invisible");
-	//player
-	var instances = "";
-	for(instance in d.instances){
-		instances += "<li onclick=\"instance('"+instance+"')\">"+instance+" - ";
-		if(d.instances[instance].completed)
-			instances+="Completed";
-		else if(d.instances[instance].fled)
-			instances+="Fled";
-		else if(d.instances[instance].discovered)
-			instances+="Discovered";
-		else
-			instances+="Not Discovered";
-		instances+="</li>";
+	
+	if(isHero){//hero
+		var instances = "";
+		for(instance in d.instances){
+			instances += "<li onclick=\"doInstance('"+instance+"')\">"+instance+" - ";
+			if(d.instances[instance].completed)
+				instances+="Completed";
+			else if(d.instances[instance].fled)
+				instances+="Fled";
+			else if(d.instances[instance].discovered)
+				instances+="Discovered";
+			else
+				instances+="Not Discovered";
+			instances+="</li>";
+		}
+		$("#instances").html(instances);
+	} else { //overlord
+	
 	}
-	$(".instances").html(instances);
 }
 function updateInstance(){
 	//make sure instance is visible
@@ -58,17 +68,22 @@ function updateInstance(){
 	$("#"+(isHero?"pl":"ol")+"overworld").addClass("invisible");
 	$("#"+(isHero?"pl":"ol")+"instance").removeClass("invisible");
 	//Overlord
-	var players = "";
-	for(p in d.hero){
-		players += "<li onclick=\"event('death',"+p+")\">"+d.hero[p].hero+" L:"+d.hero[p].level+" C:"+d.hero[p].curses+"</li>";
+	if(isHero){
+		
+	} else { //overlord
+		var players = "";
+		for(p in d.hero){
+			players += "<li onclick=\"event('death',"+p+")\">"+d.hero[p].hero+" L:"+d.hero[p].level+" C:"+d.hero[p].curses+"</li>";
+		}
+		$("#killplayer").html(players);
 	}
-	$("#killplayer").html(players);
 }
 
 /* Event functions*/
-function instance(name){
+function doInstance(name){
 	if(d.instances[name].fled || d.instances[name].completed){
-		alert("You enter an instance twice.");
+		//Fill in all instance details
+		$("#instance").dialog({title:name});
 	} else {
 		if(confirm("Do you want to enter "+name+"?"))
 			event("enter",name);
@@ -141,7 +156,7 @@ function update(){
 function createCampaign(){
 	//Open first campaign creation div
 	$("#setup1").removeClass("invisible");
-	$("#setup1").children().children().children().children().children()[0].focus();
+	$("#setup1").find('input').first().focus();
 }
 function setup(that){
 	var mum = $(that).parents('div').first();
@@ -150,7 +165,7 @@ function setup(that){
 	mum.next().find('input').first().focus();
 }
 function completeSetup(form){
-	$("#loadblock").removeClass("invisible");
+	$(".setup").addClass('invisible');
 	$.post("operations/create.php",
 		$(form).serialize(),
 		function(data,textStatus,xhr){
@@ -159,10 +174,15 @@ function completeSetup(form){
 				alert("Creating this campaign failed :(")
 				console.log(xhr);
 			} else {
+				$("#loadblock").removeClass("invisible");
 				selectCampaign(data);
 			}
 		}
 	);
+}
+function cancelSetup(form){
+	form.reset();
+	$(".setup").addClass('invisible');
 }
 function deleteCampaign(id,element){
 	$.post("operations/delete.php","id="+id);
@@ -170,6 +190,7 @@ function deleteCampaign(id,element){
 }
 function selectCampaign(id){
 	campaign = id;
+	$("#loadblock").addClass("invisible");
 	$("#newload").addClass("invisible");
 	$("#whichside").removeClass("invisible");
 }
@@ -177,8 +198,8 @@ function setPlayer(p){ //true = heroes
 	isHero = p;
 	$("#whichside").addClass('invisible');
 	$(".control").removeClass('invisible');
-	$('#loadblock').removeClass('invisible');
+	$('#loadblock').addClass('invisible');
 	location.hash = (isHero?"p":"o")+campaign;
-	update(function(){$('#loadblock').addClass('invisible')});
+	update();
 	timer = setInterval("update()",pollRate);
 }

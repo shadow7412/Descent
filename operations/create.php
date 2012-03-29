@@ -2,8 +2,21 @@
 include "../include/db.php";
 $db = new db;
 //Some generic variables to save writing it out 4038 times.
-$instances = array("discovered"=>false,"completed"=>false,"fled"=>false);
-$cities = array("razed"=>false,"discovered"=>false);
+$instances = array(
+	"discovered"=>false,
+	"completed"=>false,
+	"fled"=>false,
+	"island"=>false,
+	"numberoflevels"=>3,
+	"level"=>1,
+	"gold"=>1,
+	"deaths"=>array(0,0,0,0),
+	"hero"=>0,
+	"overlord"=>0,
+);
+$islands = $instances;
+$islands['island'] = true;
+$cities = array("razed"=>false);
 
 //Create new campaign
 $bones = array(
@@ -21,6 +34,7 @@ $bones = array(
 		"conquest"=>$_POST['hconquest'],
 		"gold"=>$_POST['hgold'],
 		"location"=>"overworld",
+		"rumour"=>"rumour",
 	),
 	"hero"=>array(
 		array(
@@ -84,17 +98,21 @@ $bones = array(
 		"Stagwood Forest"=>$instances,
 		"Sunset Hills"=>$instances,
 		"Withered Plains"=>$instances,
-		"Bright Sea"=>$instances,
-		"Burning Bay"=>$instances,
-		"Cerridor Sea"=>$instances,
-		"Midnight Cove"=>$instances,
-		"Narrows of Gracor"=>$instances,
-		"Seda of the Redtyde"=>$instances,
-		"Shrouded Gulf"=>$instances,
-		"Terrents of Dreadpeace"=>$instances,
-		"Weeping Reach"=>$instances,
-		"Winnowing Straits"=>$instances,
-	)
+		"Bright Sea"=>$islands,
+		"Burning Bay"=>$islands,
+		"Cerridor Sea"=>$islands,
+		"Midnight Cove"=>$islands,
+		"Narrows of Gracor"=>$islands,
+		"Seda of the Redtyde"=>$islands,
+		"Shrouded Gulf"=>$islands,
+		"Terrents of Dreadpeace"=>$islands,
+		"Weeping Reach"=>$islands,
+		"Winnowing Straits"=>$islands,
+	),
+	"instance"=>array(
+		"deck"=>0,
+		"bossdead"=>false,
+	),
 );
 //Try to convert to json
 $json = json_encode($bones);
