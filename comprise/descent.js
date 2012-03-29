@@ -1,6 +1,6 @@
 /*
 Things worth knowing:
-event(do,to) <-posts to update function. Most onclicks will use this. Resets the updater after getting the latest info.
+action(do,to) <-posts to update function. Most onclicks will use this. Resets the updater after getting the latest info.
 pollRate <- how often the state is refreshed
 
 */
@@ -73,7 +73,7 @@ function updateInstance(){
 	} else { //overlord
 		var players = "";
 		for(p in d.hero){
-			players += "<li onclick=\"event('death',"+p+")\">"+d.hero[p].hero+" L:"+d.hero[p].level+" C:"+d.hero[p].curses+"</li>";
+			players += "<li onclick=\"action('death',"+p+")\">"+d.hero[p].hero+" L:"+d.hero[p].level+" C:"+d.hero[p].curses+"</li>";
 		}
 		$("#killplayer").html(players);
 	}
@@ -101,9 +101,9 @@ function doInstance(name){
 		$("#instance").dialog({title:name});
 	} else {
 		if(confirm("Do you want to enter "+name+"?"))
-			event("enter",name);
+			action("enter",name);
 		else
-			event("discover",name);
+			action("discover",name);
 	}
 }
 
@@ -195,6 +195,7 @@ function completeSetup(form){
 				$("#setup1").removeClass('invisible');
 				console.log(xhr);
 			} else {
+				$("#newcampaign").after('<table class="campaignselect bronze" onclick="selectCampaign('+data+',this)" oncontextmenu="if(confirm(\'Do you REALLY want to delete this campaign?\')) deleteCampaign('+data+',this); return false;"><tr><td>Campaign info not populated - refresh to do... that</td></tr></table>');
 				$("#loadblock").removeClass("invisible");
 				cancelSetup(form); //reset form in case another campaign is created
 				selectCampaign(data);
