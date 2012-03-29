@@ -21,6 +21,7 @@ $db = new db; //Create database object
 		<div class="control invisible">
 			<button onclick="refresh()" oncontextmenu="window.open('operations/update.php?cid='+campaign);return false">Refresh</button>
 			<button onclick="pause(this)">Pause</button>
+			<button onclick="$('#overview').toggleClass('invisible')">Overview</button>
 			<button onclick="exit()">Exit</button>
 			<div id="graphtotier"></div>
 			<div id="ticker"></div>
@@ -30,6 +31,7 @@ $db = new db; //Create database object
 			<div style="float:left" onclick="setPlayer(false)"><span></span><img alt="Overlord" src="comprise/images/threat-token.png"></div>
 			<div style="float:right" onclick="setPlayer(true)"><span></span><img alt="Heroes" src="comprise/images/heroes-figures.png"></div>
 		</div>
+		<div class="main invisible" style="z-index:2;" id="overview"><?php include "pages/overview.php";?></div>
 		<div class="main invisible" id="oloverworld"><?php include "pages/oloverworld.php";?></div>
 		<div class="main invisible" id="ploverworld"><?php include "pages/ploverworld.php";?></div>
 		<div class="main invisible" id="olinstance"><?php include "pages/olinstance.php";?></div>
