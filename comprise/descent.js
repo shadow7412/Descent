@@ -1,9 +1,9 @@
-var isHero = null;
-var campaign = null;
-var timer = null
-var pollRate = 5000;
-var d = null; //Descent variable. Contains the full game state.
-function update(obj){
+var pollRate = 5000; //How often (in milliseconds) should the game state be refreshed?
+var isHero = null;   //Is the player on the hero side or the overlord side?
+var campaign = null; //The id of the campaign
+var timer = null;    //The timer reference - so it can be cancelled
+var d = null;        //The big d. Contains the full game state.
+function update(){
 	$.getJSON("operations/update.php","cid="+campaign,function(data,textStatus,xhr){
 		updateJSON(data);
 	}).error(function(data,handle){console.error("Updating failed - ",handle)});
@@ -15,13 +15,15 @@ function updateJSON(de){
 		return;
 	}
 	d = de; //pump it out into global space
+	$('#loadblock').addClass('invisible');//remove pane if it was showing
 	if(d.message != null && d.message != "") alert(d.message);
 	$("#graphtotier").progressbar({value: (((d.heroes.conquest + d.overlord.conquest)-(d.tier*200))/2)});//progress bar will autocap at 100%
 	$("#ticker").html("Hero Conquest: "+d.heroes.conquest+", Hero Gold: "+d.heroes.gold+", Overlord Conquest: "+d.overlord.conquest);
+	//update the applicable view:
 	if(d.heroes.location=="overworld")
-		updateOverworld(d);
+		updateOverworld();
 	else 
-		updateInstance(d);	
+		updateInstance();	
 }
 function updateOverworld(){
 	//Make sure overworld is visible
@@ -38,7 +40,7 @@ function updateOverworld(){
 			instances+="Discovered";
 		else
 			instances+="Not Discovered";
-		instances+="</li>"
+		instances+="</li>";
 	}
 	$(".instances").html(instances);
 }
@@ -79,13 +81,14 @@ function setPlayer(p){ //true = heroes
 	isHero = p;
 	$("#whichside").addClass('invisible');
 	$(".control").removeClass('invisible');
+	$('#loadblock').removeClass('invisible');
 	location.hash = (isHero?"p":"o")+campaign;
-	update();
+	update(function(){$('#loadblock').addClass('invisible')});
 	timer = setInterval("update()",pollRate);
 }
 function startInstance(name){
 	if(d.instances[name].fled||d.instances[name].completed){
-		alert("You cannot enter a completed instance.");
+		alert("You enter an instance twice.");
 	} else {
 		if(confirm("Do you want to enter "+name+"?"))
 			event("enter",name);
@@ -96,7 +99,7 @@ function startInstance(name){
 function event(type,to){
 	clearInterval(timer);
 	timer = null;
-	alert('Done');
+	$('#loadblock').removeClass('invisible');
 	$.post("operations/update.php?cid="+campaign,"action="+type+"&to="+to,function(a){
 															timer = setInterval("update()",pollRate);
 															console.log(a);
@@ -123,6 +126,7 @@ function checkHash(){
 function refresh(){
 	clearInterval(timer);
 	timer = null;
+	$('#loadblock').removeClass('invisible');
 	update();
 	timer = setInterval("update()",pollRate);
 }

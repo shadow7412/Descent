@@ -1,15 +1,18 @@
 Purpose:
 Replace the notebook with a web application that both heroes and overlords have open.
 It must:
-- Autoupdate to stay in sync with each other.
-- Be easier than the notebook
-- Be backdateable (allow undoing of actions)
 - Be quick - we want to play the game rather than stare at a computer waiting for it do work
-- Not replace anything BUT the notepad. (For example, we don't care how many treasure maps we have - we have tokens for that)
+	- Autoupdate to stay in sync with each other.
+	- Be easier than the notebook
+	- Be backdateable (allow undoing of actions)
+	- Not replace anything BUT the notepad. (For example, we don't care how many treasure maps we have - we have tokens for that)
+	- Be nice on a tablet (touchscreen)
 
 Bugs/Issues
 - If the state gets corrupt, it isn't recoverable. (Hasn't happened, but just throwing it out there)
-  - We could use the log to recreate the game state
+	- We could use the log to recreate the game state, just step through it all and 'replay' the game.
+- After creating new campaign, it does not come up on mainscreen in that same session
+	- JS will have to create a table. It will also haveto update tier of played campaign
 
 Installation:
 	Pull to www folder
@@ -17,13 +20,15 @@ Installation:
 	Set database login - config/settings.php
 
 TODO:
-	Overlord - overworld view
-	Hero - overworld view
-	Overlord - instance view
-	Hero - instance view
-	Track XP spent
+	Views:
+		- Overlord - overworld view
+		- Hero - overworld view
+		- Overlord - instance view
+		- Hero - instance view
+	Track hero XP spent
 	Images images images - there is a lot of fancy descent art that should be used.
 	Log view (and altering the log)
+	Track home port - for in dungeon heals
 
 And the rest of this readme is me jotting down random brainstory stuff	
 ! = todo.
@@ -31,36 +36,36 @@ And the rest of this readme is me jotting down random brainstory stuff
 ? = done but needs checking (ie, is the conquest value correct?)
 
 Instance events
-      ! Player death
-      ! Glyph activation
-      ? Master death
-      ? Boss death
-      ? Final Boss death
-      ! Chest looting
-      ! Level in dungeon
-      ! Barrel looting
-      ! Shop purchase
+	! Player death
+	! Glyph activation
+	? Master death
+	? Boss death
+	? Final Boss death
+	! Chest looting
+	! Level in dungeon
+	! Barrel looting
+	! Shop purchase
 
 Overworld events
-      ! Time passes
-      ! Items purchased (from shop or applicable tier
-	  ! Train/Alchemy/etc
-      ? Discover location
-      ? Enter location (to instance mode)
-      ? Enter encounter
+	! Time passes
+	! Items purchased (from shop or applicable tier)
+	! Train/rumour/alchemy etc
+	? Discover location
+	? Enter location (to instance mode)
+	? Enter encounter
 
 Each Hero
-      - XP
-      - Level
-      - Curses
-      - Powerdie (and ability to upgrade)
-      - Purchase Skill
-      - Special Training
+	- XP
+	- Level
+	- Curses
+	- Powerdie (and ability to upgrade)
+	- Purchase Skill
+	- Special Training
 
 OverLord - do we want/need to track these?
-      ! Creature Tiers
-      ! Treachery
+	! Creature Tiers
+	! Treachery
 Tiers
-      ! Weeks Passed
-      - Bronze (200) Silver (400) Gold (600) Final Battle
-      ! Divine Favor (on player death)
+	! Weeks Passed
+	- Bronze (200) Silver (400) Gold (600) Final Battle
+	! Divine Favor (on player death)	
