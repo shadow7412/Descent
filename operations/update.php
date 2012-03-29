@@ -66,14 +66,13 @@ if(isset($do)){
 			}
 			break;
 		case("death"):
-			//player
-			$p = $to-1;//lets get the array element rather than the player number.
+			//to = array element of player
 			$divine = intVal(($bones['heroes']['conquest']-$bones['overlord']['conquest'])/25);
-			$cost = $bones['hero'][$p]['level'] + $divine;
+			$cost = $bones['hero'][$to]['level'] + $divine;
 			if($cost < 1) $cost = 1; //can't cost less than one
-			action("Death of ".$bones['hero'][$p]['hero']." (Divine: $divine)",0,0,$cost+$bones['hero'][$p]['curses']);
-			$bones['hero'][$p]['curses'] = 0; //reset number of curses
-			$bones['hero'][$p]['deaths']++; //reset number of curses
+			action("Death of ".$bones['hero'][$to]['hero']." (Divine: $divine)",0,0,$cost+$bones['hero'][$to]['curses']);
+			$bones['hero'][$to]['curses'] = 0; //reset number of curses
+			$bones['hero'][$to]['deaths']++; //reset number of curses
 		case("curse"):
 			//player
 		case("chest"):

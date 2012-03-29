@@ -1,14 +1,18 @@
-var pollRate = 5000; //How often (in milliseconds) should the game state be refreshed?
+/*
+Things worth knowing:
+event(do,to) <-posts to update function. Most onclicks will use this. Resets the updater after getting the latest info.
+pollRate <- how often the state is refreshed
+
+*/
+/*Global variables*/
+var pollRate = 3000; //How often (in milliseconds) should the game state be refreshed?
 var isHero = null;   //Is the player on the hero side or the overlord side?
 var campaign = null; //The id of the campaign
 var timer = null;    //The timer reference - so it can be cancelled
 var d = null;        //The big d. Contains the full game state.
-function update(){
-	$.getJSON("operations/update.php","cid="+campaign,function(data,textStatus,xhr){
-		updateJSON(data);
-	}).error(function(data,handle){console.error("Updating failed - ",handle)});
-}
-//The big update function.
+
+
+/* Update functions */
 function updateJSON(de){
 	if(de==null){
 		console.error("Invalid JSON... maybe.");
@@ -35,7 +39,7 @@ function updateOverworld(){
 	//player
 	var instances = "";
 	for(instance in d.instances){
-		instances += "<li onclick=\"startInstance('"+instance+"')\">"+instance+" - ";
+		instances += "<li onclick=\"instance('"+instance+"')\">"+instance+" - ";
 		if(d.instances[instance].completed)
 			instances+="Completed";
 		else if(d.instances[instance].fled)
@@ -50,61 +54,20 @@ function updateOverworld(){
 }
 function updateInstance(){
 	//make sure instance is visible
+	//fade(in|out)?
 	$("#"+(isHero?"pl":"ol")+"overworld").addClass("invisible");
 	$("#"+(isHero?"pl":"ol")+"instance").removeClass("invisible");
 	//Overlord
 	var players = "";
 	for(p in d.hero){
-		players += "<li>"+d.hero[p].hero+" L:"+d.hero[p].level+" C:"+d.hero[p].curses+"</li>";
+		players += "<li onclick=\"event('death',"+p+")\">"+d.hero[p].hero+" L:"+d.hero[p].level+" C:"+d.hero[p].curses+"</li>";
 	}
 	$("#killplayer").html(players);
 }
-function createCampaign(){
-	//Open first campaign creation div
-	$("#setup1").removeClass("invisible");
-	$("#setup1").children().children().children().children().children()[0].focus();
-}
-function setup(that){
-	var mum = $(that).parents('div')[0];
-	$(mum).next().removeClass('invisible');
-	$(mum).addClass('invisible');
-	//$(mum).children().children().children().children().children()[0].focus();
-}
-function completeSetup(form){
-	$("#loadblock").removeClass("invisible");
-	$.post("operations/create.php",
-		$(form).serialize(),
-		function(data,textStatus,xhr){
-			$("#loadblock").addClass("invisible");
-			if(data=="failed"){
-				alert("Creating this campaign failed :(")
-				console.log(xhr);
-			} else {
-				selectCampaign(data);
-			}
-		}
-	);
-}
-function deleteCampaign(id,element){
-	$.post("operations/delete.php","id="+id);
-	element.outerHTML = "";
-}
-function selectCampaign(id){
-	campaign = id;
-	$("#newload").addClass("invisible");
-	$("#whichside").removeClass("invisible");
-}
-function setPlayer(p){ //true = heroes
-	isHero = p;
-	$("#whichside").addClass('invisible');
-	$(".control").removeClass('invisible');
-	$('#loadblock').removeClass('invisible');
-	location.hash = (isHero?"p":"o")+campaign;
-	update(function(){$('#loadblock').addClass('invisible')});
-	timer = setInterval("update()",pollRate);
-}
-function startInstance(name){
-	if(d.instances[name].fled||d.instances[name].completed){
+
+/* Event functions*/
+function instance(name){
+	if(d.instances[name].fled || d.instances[name].completed){
 		alert("You enter an instance twice.");
 	} else {
 		if(confirm("Do you want to enter "+name+"?"))
@@ -123,6 +86,8 @@ function event(type,to){
 															updateJSON(a);
 														});
 }
+
+/* Low-level functions*/
 function checkHash(){
 	//hashes are in the form px - p=player type (1 character, x=campaign id
 	if(location.hash != ""){
@@ -165,4 +130,55 @@ function exit(){
 	$(".main").addClass('invisible');
 	$(".control").addClass('invisible');
 	$("#newload").removeClass('invisible');
+}
+function update(){
+	$.getJSON("operations/update.php","cid="+campaign,function(data,textStatus,xhr){
+		updateJSON(data);
+	}).error(function(data,handle){console.error("Updating failed - ",handle)});
+}
+
+/*Setup functions*/
+function createCampaign(){
+	//Open first campaign creation div
+	$("#setup1").removeClass("invisible");
+	$("#setup1").children().children().children().children().children()[0].focus();
+}
+function setup(that){
+	var mum = $(that).parents('div').first();
+	mum.addClass('invisible');
+	mum.next().removeClass('invisible');
+	mum.next().find('input').first().focus();
+}
+function completeSetup(form){
+	$("#loadblock").removeClass("invisible");
+	$.post("operations/create.php",
+		$(form).serialize(),
+		function(data,textStatus,xhr){
+			$("#loadblock").addClass("invisible");
+			if(data=="failed"){
+				alert("Creating this campaign failed :(")
+				console.log(xhr);
+			} else {
+				selectCampaign(data);
+			}
+		}
+	);
+}
+function deleteCampaign(id,element){
+	$.post("operations/delete.php","id="+id);
+	element.outerHTML = "";
+}
+function selectCampaign(id){
+	campaign = id;
+	$("#newload").addClass("invisible");
+	$("#whichside").removeClass("invisible");
+}
+function setPlayer(p){ //true = heroes
+	isHero = p;
+	$("#whichside").addClass('invisible');
+	$(".control").removeClass('invisible');
+	$('#loadblock').removeClass('invisible');
+	location.hash = (isHero?"p":"o")+campaign;
+	update(function(){$('#loadblock').addClass('invisible')});
+	timer = setInterval("update()",pollRate);
 }

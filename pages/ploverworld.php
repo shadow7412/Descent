@@ -6,4 +6,4 @@ City:
 	<li>Pub</li>
 </ul>
 Enter Instance:
-<ul class="instances"></ul>
+<ul class="instances box"></ul>

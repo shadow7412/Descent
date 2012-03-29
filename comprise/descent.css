@@ -20,7 +20,20 @@ html, body {
 	width:100%;
 	text-align:center;
 }
-
+ul.box li{
+	vertical-align:middle;
+	padding:2px;
+	margin:2px;
+	background:#DDD;
+	display:inline-block;
+	text-align:center;
+	list-style-type:none;
+	width:100px;
+	height:100px;
+}
+ul.box li:hover{
+	background:#CCC;
+}
 /* Setup screens*/
 .campaignselect {
 	background:#CCC;
