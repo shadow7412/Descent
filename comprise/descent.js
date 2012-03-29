@@ -104,6 +104,7 @@ function event(type,to){
 														});
 }
 function checkHash(){
+	//hashes are in the form px - p=player type (1 character, x=campaign id
 	if(location.hash != ""){
 		if(location.hash.substr(1,1)=='p'){
 			campaign = location.hash.substr(2);
