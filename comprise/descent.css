@@ -12,6 +12,8 @@ html, body {
 	min-height:100%;
 	background-color:#EEE;
 }
+.todo{
+}
 /* In game screens */
 #ticker{
 	position:absolute;
@@ -34,6 +36,7 @@ ul.box li{
 ul.box li:hover{
 	background:#CCC;
 }
+
 /* Setup screens*/
 .campaignselect {
 	background:#CCC;

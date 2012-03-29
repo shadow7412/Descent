@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 3.4.9
+-- version 3.4.10.1
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Mar 29, 2012 at 12:04 AM
+-- Generation Time: Mar 29, 2012 at 11:35 AM
 -- Server version: 5.5.20
--- PHP Version: 5.3.9
+-- PHP Version: 5.3.10
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -31,13 +31,12 @@ USE `descent`;
 DROP TABLE IF EXISTS `campaign`;
 CREATE TABLE IF NOT EXISTS `campaign` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `overlord` varchar(30) NOT NULL COMMENT 'Name of overlord',
-  `created` timestamp NULL DEFAULT NULL COMMENT 'Date campaign was created',
-  `played` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT 'Date campaign was last played (updated)',
-  `state` varchar(9999) NOT NULL COMMENT 'JSON string showing current state of campaign',
-  `deleted` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'Boolean value saying whether game should appear on initial selection screen',
+  `created` timestamp NULL DEFAULT NULL,
+  `played` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `state` varchar(9999) NOT NULL,
+  `deleted` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=0 ;
 
 -- --------------------------------------------------------
 
@@ -55,8 +54,10 @@ CREATE TABLE IF NOT EXISTS `log` (
   `player` int(11) NOT NULL COMMENT 'Gained conquest by players',
   `gold` int(11) NOT NULL COMMENT 'Gained Gold by players',
   `overlord` int(11) NOT NULL COMMENT 'Gained conquest by overlord',
+  `hero` int(11) NOT NULL,
+  `xp` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=10 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=0 ;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

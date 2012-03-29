@@ -12,6 +12,8 @@ var timer = null;    //The timer reference - so it can be cancelled
 var d = null;        //The big d. Contains the full game state.
 
 /* Update functions */
+//Callback for update(), recieves the result and makes sure it's valid(ish) before pumping it through the works
+//Sets global(ish) placeholers
 function updateJSON(de){
 	if(de==null){
 		console.error("Invalid JSON... maybe.");
@@ -34,10 +36,7 @@ function updateJSON(de){
 	else 
 		updateInstance();	
 }
-function message(message){
-	$('#dialog').html(message);
-	$('#dialog').dialog();
-}
+//Updates overworld view for player/overlord
 function updateOverworld(){
 	//Make sure overworld is visible
 	$("#"+(isHero?"pl":"ol")+"overworld").removeClass("invisible");
@@ -57,11 +56,12 @@ function updateOverworld(){
 				instances+="Not Discovered";
 			instances+="</li>";
 		}
-		$("#instances").html(instances);
+		$("#hoinstances").html(instances);
 	} else { //overlord
 	
 	}
 }
+//Updates instance view for player/overlord
 function updateInstance(){
 	//make sure instance is visible
 	//fade(in|out)?
@@ -80,6 +80,21 @@ function updateInstance(){
 }
 
 /* Event functions*/
+//called when an instance is starting. Checks to see if player wants to just explore or actually enter
+//If we've been, just show stats for when we went
+//Main function for anything that happens.
+//Sends type and to up to update.php for it to read
+//Updates display the moment we get a response
+function action(type,to){
+	clearInterval(timer);
+	timer = null;
+	$('#loadblock').removeClass('invisible');
+	$.post("operations/update.php?cid="+campaign,"action="+type+"&to="+to,function(a){
+															timer = setInterval("update()",pollRate);
+															console.log(a);
+															updateJSON(a);
+														});
+}
 function doInstance(name){
 	if(d.instances[name].fled || d.instances[name].completed){
 		//Fill in all instance details
@@ -91,18 +106,16 @@ function doInstance(name){
 			event("discover",name);
 	}
 }
-function event(type,to){
-	clearInterval(timer);
-	timer = null;
-	$('#loadblock').removeClass('invisible');
-	$.post("operations/update.php?cid="+campaign,"action="+type+"&to="+to,function(a){
-															timer = setInterval("update()",pollRate);
-															console.log(a);
-															updateJSON(a);
-														});
-}
 
 /* Low-level functions*/
+//if console doesn't work, then just stay quiet instead of breaking javascript
+if(console==null) console = {"log":function(){},"error":function(){}};
+//Replacement of alert()
+function message(message){
+	$('#dialog').html(message);
+	$('#dialog').dialog();
+}
+//Checks page hash at start of game.
 function checkHash(){
 	//hashes are in the form px - p=player type (1 character, x=campaign id
 	if(location.hash != ""){
@@ -120,6 +133,7 @@ function checkHash(){
 		$('#newload').addClass('invisible');
 	}
 }
+//Force refresh
 function refresh(){
 	clearInterval(timer);
 	timer = null;
@@ -127,6 +141,7 @@ function refresh(){
 	update();
 	timer = setInterval("update()",pollRate);
 }
+//Pause/resume interval
 function pause(button){
 	if(button.innerHTML == "Pause"){
 		clearInterval(timer);
@@ -138,6 +153,7 @@ function pause(button){
 		timer = setInterval("update()",pollRate);
 	}
 }
+//jump back to main menu
 function exit(){
 	clearInterval(timer);
 	timer = null;
@@ -146,24 +162,27 @@ function exit(){
 	$(".control").addClass('invisible');
 	$("#newload").removeClass('invisible');
 }
+//request update - can contain extra info for anything that has happened
 function update(){
 	$.getJSON("operations/update.php","cid="+campaign,function(data,textStatus,xhr){
 		updateJSON(data);
 	}).error(function(data,handle){console.error("Updating failed - ",handle)});
 }
-
 /*Setup functions*/
+//Opens setup pane
 function createCampaign(){
 	//Open first campaign creation div
 	$("#setup1").removeClass("invisible");
 	$("#setup1").find('input').first().focus();
 }
+//Moves setup pane to the next one
 function setup(that){
 	var mum = $(that).parents('div').first();
 	mum.addClass('invisible');
 	mum.next().removeClass('invisible');
 	mum.next().find('input').first().focus();
 }
+//Posts form to the ethers
 function completeSetup(form){
 	$(".setup").addClass('invisible');
 	$.post("operations/create.php",
@@ -171,29 +190,37 @@ function completeSetup(form){
 		function(data,textStatus,xhr){
 			$("#loadblock").addClass("invisible");
 			if(data=="failed"){
-				alert("Creating this campaign failed :(")
+				message("Creating this campaign failed :( Check your values and try again in a few minutes.");
+				$("#loadblock").removeClass("invisible");
+				$("#setup1").removeClass('invisible');
 				console.log(xhr);
 			} else {
 				$("#loadblock").removeClass("invisible");
+				cancelSetup(form); //reset form in case another campaign is created
 				selectCampaign(data);
 			}
 		}
 	);
 }
+//Reverts form back to default values, hides it.
 function cancelSetup(form){
 	form.reset();
 	$(".setup").addClass('invisible');
 }
+//Sends post to have campaign flagged as deleted. Removes campaign from list (silent success/failure)
 function deleteCampaign(id,element){
 	$.post("operations/delete.php","id="+id);
 	element.outerHTML = "";
 }
+//sets global id, shows player selection screen
 function selectCampaign(id){
 	campaign = id;
 	$("#loadblock").addClass("invisible");
 	$("#newload").addClass("invisible");
 	$("#whichside").removeClass("invisible");
 }
+//Sets global variable, shows game screen.
+//Sets location.hash so if page is refreshed or bookmarked we'll go straight back to the action
 function setPlayer(p){ //true = heroes
 	isHero = p;
 	$("#whichside").addClass('invisible');
@@ -202,4 +229,12 @@ function setPlayer(p){ //true = heroes
 	location.hash = (isHero?"p":"o")+campaign;
 	update();
 	timer = setInterval("update()",pollRate);
+}
+//For input values - make sure we only get a number
+function isNumberKey(evt){
+	var charCode = (evt.which) ? evt.which : event.keyCode
+	if (charCode > 31 && (charCode < 48 || charCode > 57))
+		return false;
+	else
+		return true;
 }

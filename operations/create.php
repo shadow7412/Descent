@@ -29,12 +29,14 @@ $bones = array(
 		"avatar"=>$_POST['oavatar'],
 		"conquest"=>$_POST['oconquest'],
 		"spentconquest"=>0,
+		"keep"=>null,
 	),
 	"heroes"=>array(
 		"conquest"=>$_POST['hconquest'],
 		"gold"=>$_POST['hgold'],
 		"location"=>"overworld",
-		"rumour"=>"rumour",
+		"homeport"=>null,
+		"rumour"=>null,
 	),
 	"hero"=>array(
 		array(

@@ -15,11 +15,14 @@ Coding Conventions
 		Hero|Overlord view
 		Overworld|Instance|overView
 		Whatever is being populated (hero names? whatever...)
+	Class 'todo' is used for any object that requires an onclick event but has not yet been assigned one.
 
-
+References:
+	http://www.descentinthedark.com/_h_/heroes.php <-every single hero sheet
+	http://stackoverflow.com/questions/3764709/web-based-push-notifications-for-internal-only-application <-this would be interesting to implement
 
 Bugs/Issues
-- If the state gets corrupt, it isn't recoverable. (Hasn't happened, but just throwing it out there)
+- If the state gets corrupt, it isn't recoverable. (Hasn't happened, shouldn't happen, but just throwing it out there)
 	- We could use the log to recreate the game state, just step through it all and 'replay' the game.
 - After creating new campaign, it does not come up on mainscreen in that same session
 	- JS will have to create a table. It will also haveto update tier of played campaign
@@ -35,10 +38,11 @@ TODO:
 		- Hero - overworld view
 		- Overlord - instance view
 		- Hero - instance view
+		- Overview - shows state of full game
+		- Advanced - has datatable with full log, is editable.
 	Track hero XP spent
 	Images images images - there is a lot of fancy descent art that should be used.
-	Log view (and altering the log)
-	Track home port - for in dungeon heals
+	Track home port - for in dungeon heals?
 
 And the rest of this readme is me jotting down random brainstory stuff	
 ! = todo.
