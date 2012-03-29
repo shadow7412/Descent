@@ -10,7 +10,7 @@
 		<tr><td>Plot</td><td><input name="oplot"/></td></tr>
 		<tr><td>Avatar</td><td><input name="oavatar"/></td></tr>
 		<tr><td>Starting conquest</td><td><input name="oconquest"/></td></tr>
-		<tr><td><button onclick="$($(this).parents('div')[0]).next().removeClass('invisible'); $($(this).parents('div')[0]).addClass('invisible');return false">Next</button></td></tr>
+		<tr><td><button onclick="setup(this);return false">Next</button></td></tr>
 		</table>
 	</div>
 	<div id="setup2" class="invisible setup" title="New Campaign - Starting stats">
@@ -19,7 +19,7 @@
 		<tr><td>Starting Conquest</td><td><input name="hconquest"/></td></tr>
 		<tr><td>Starting Experience</td><td><input name="hxp"/></td></tr>
 		<tr><td>Starting Gold</td><td><input name="hgold"/></td></tr>
-		<tr><td><button onclick="$($(this).parents('div')[0]).next().removeClass('invisible'); $($(this).parents('div')[0]).addClass('invisible');return false">Next</button></td></tr>
+		<tr><td><button onclick="setup(this); $($(this).parents('div')[0]).addClass('invisible');return false">Next</button></td></tr>
 		</table>
 	</div>
 	<div id="setup3" class="invisible setup" title="New Campaign - Player 1">
@@ -28,7 +28,7 @@
 		<tr><td>Player's Name</td><td><input name="h1player"/></td></tr>
 		<tr><td>Hero's Name</td><td><input name="h1name"/></td></tr>
 		<tr><td>Hero's Level</td><td><input name="h1level"/></td></tr>	
-		<tr><td><button onclick="$($(this).parents('div')[0]).next().removeClass('invisible'); $($(this).parents('div')[0]).addClass('invisible');return false">Next</button></td></tr>
+		<tr><td><button onclick="setup(this);return false">Next</button></td></tr>
 		</table>
 	</div>
 	<div id="setup4" class="invisible setup" title="New Campaign - Player 2">
@@ -37,7 +37,7 @@
 		<tr><td>Player's Name</td><td><input name="h2player"/></td></tr>
 		<tr><td>Hero's Name</td><td><input name="h2name"/></td></tr>
 		<tr><td>Hero's Level</td><td><input name="h2level"/></td></tr>
-		<tr><td><button onclick="$($(this).parents('div')[0]).next().removeClass('invisible'); $($(this).parents('div')[0]).addClass('invisible');return false">Next</button></td></tr>
+		<tr><td><button onclick="setup(this);return false">Next</button></td></tr>
 		</table>
 	</div>
 	<div id="setup5" class="invisible setup" title="New Campaign - Player 3">
@@ -46,7 +46,7 @@
 		<tr><td>Player's Name</td><td><input name="h3player"/></td></tr>
 		<tr><td>Hero's Name</td><td><input name="h3name"/></td></tr>
 		<tr><td>Hero's Level</td><td><input name="h3level"/></td></tr>	
-		<tr><td><button onclick="$($(this).parents('div')[0]).next().removeClass('invisible'); $($(this).parents('div')[0]).addClass('invisible');return false">Next</button></td></tr>
+		<tr><td><button onclick="setup(this);return false">Next</button></td></tr>
 		</table>
 	</div>
 	<div id="setup6" class="invisible setup" title="New Campaign - Player 4">

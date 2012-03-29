@@ -3,7 +3,7 @@ header("Content-Type: application/json");
 require_once "../include/db.php";
 $db = new db;
 function error($a){
-	$bones['message'] = $a;
+	$bones['error'] = $a;
 	die(json_encode($bones));
 }
 function action($action,$player = 0,$gold = 0,$overlord = 0,$hero = null,$xp = 0){
@@ -47,6 +47,11 @@ if(isset($do)){
 		case("timepasses"):
 			//A week passes.
 			//update tier
+			if(($message[$bones['tier']]<3) && ($bones['tier']*200+200) < ($bones['overlord']['conquest']+$bones['heroes']['conquest'])){
+				$message = array("Welcome to SILVER tier.","Welcome to GOLD tier.","Prepare for the final battle!",);
+				$bones['message'] = $message[$bones['tier']];
+				$bones['tier']++;
+			}
 			//increment gameweek
 			$bones['week']++;
 			break;
@@ -56,12 +61,19 @@ if(isset($do)){
 		case("discover"):
 			//Mark as discovered (if entering, we are also discovering if not already)
 			if($bones['instances'][$to]['discovered'] == false){
-				action("Discovered ".$to,50);
 				$bones['instances'][$to]['discovered'] = true;
+				action("Discovered ".$to,50);
 			}
 			break;
 		case("death"):
 			//player
+			$p = $to-1;//lets get the array element rather than the player number.
+			$divine = intVal(($bones['heroes']['conquest']-$bones['overlord']['conquest'])/25);
+			$cost = $bones['hero'][$p]['level'] + $divine;
+			if($cost < 1) $cost = 1; //can't cost less than one
+			action("Death of ".$bones['hero'][$p]['hero']." (Divine: $divine)",0,0,$cost+$bones['hero'][$p]['curses']);
+			$bones['hero'][$p]['curses'] = 0; //reset number of curses
+			$bones['hero'][$p]['deaths']++; //reset number of curses
 		case("curse"):
 			//player
 		case("chest"):
@@ -69,7 +81,7 @@ if(isset($do)){
 		case("glyph"):
 			action("Unlocked Glyph",3);
 		case("kill"):
-		//master/boss/finalboss/lieutenant
+			//master/boss/finalboss/lieutenant
 			switch ($to){
 				case("master"):
 					action("Killed Master",0,50);

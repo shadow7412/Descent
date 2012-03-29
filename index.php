@@ -13,53 +13,22 @@ $db = new db;
 		<script type="text/javascript" src="comprise/descent.js"></script>
 	</head>
 	<body onload="checkHash()">
-		<div id="loadblock" class="ui-widget-overlay invisible" style="z-index: 1001; width: 100%; height: 100%; "></div>
+		<div id="loadblock" class="ui-widget-overlay invisible" style="z-index: 1001; width: 100%; height: 100%;"></div>
 		<div class="control invisible">
-			<button onclick="refresh()" oncontextmenu="window.open('operations/update.php');return false">Refresh</button>
+			<button onclick="refresh()" oncontextmenu="window.open('operations/update.php?cid='+campaign);return false">Refresh</button>
 			<button onclick="pause(this)">Pause</button>
 			<button onclick="exit()">Exit</button>
 			<div id="graphtotier"></div>
 			<div id="ticker"></div>
 		</div>
-		<div class="main" id="newload"><?php include "pages/newload.php";?>
-		</div>
+		<div class="main" id="newload"><?php include "pages/newload.php";?></div>
 		<div class="main invisible" id="whichside">
 			<div style="float:left" onclick="setPlayer(false)">Overlord</div>
 			<div style="float:right" onclick="setPlayer(true)">Heroes</div>
 		</div>
-		<div class="main invisible" id="oloverworld">
-			Overlord - overworld
-		</div>
-		<div class="main invisible" id="ploverworld">
-			City:
-			<ul>
-				<li>Train</li>
-				<li>Alchemist</li>
-				<li>Port</li>
-				<li>Pub</li>
-			</ul>
-			Enter Instance:
-			<ul class="instances"></ul>
-		</div>
-		<div class="main invisible" id="olinstance">
-			Overlord - instance
-		</div>
-		<div class="main invisible" id="plinstance">
-			Stats:
-			<ul class="playerstats">
-			</ul>
-			<ul>
-				<li onclick="event('kill','master')">Kill Master</li>
-				<li onclick="event('kill','boss')">Kill Boss</li>
-				<li onclick="event('kill','fboss')">Kill Final Boss</li>
-				<li onclick="event('kill','lieutenant')">Kill Lieutenant</li>
-				<li onclick="event('glyph')">Unlock glyph</li>
-				<li onclick="event('chest')">Treasure Chest</li>
-				<li onclick="event('barrel')">Opened Barrel</li>
-				<li onclick="event('finish','flee')">Flee</li>
-				<li onclick="event('finish','level')">Finish level</li>
-				<li onclick="event('finish','dungeon')">Finish dungeon</li>
-			</ul>
-		</div>
+		<div class="main invisible" id="oloverworld"><?php include "pages/oloverworld.php";?></div>
+		<div class="main invisible" id="ploverworld"><?php include "pages/ploverworld.php";?></div>
+		<div class="main invisible" id="olinstance"><?php include "pages/olinstance.php";?></div>
+		<div class="main invisible" id="plinstance"><?php include "pages/plinstance.php";?></div>
 	</body>
 </html>

@@ -13,6 +13,9 @@ function updateJSON(de){
 	if(de==null){
 		console.error("Invalid JSON... maybe.");
 		return;
+	} else if(de.error){
+		console.log(de.error);
+		return;
 	}
 	d = de; //pump it out into global space
 	$('#loadblock').addClass('invisible');//remove pane if it was showing
@@ -29,6 +32,7 @@ function updateOverworld(){
 	//Make sure overworld is visible
 	$("#"+(isHero?"pl":"ol")+"overworld").removeClass("invisible");
 	$("#"+(isHero?"pl":"ol")+"instance").addClass("invisible");
+	//player
 	var instances = "";
 	for(instance in d.instances){
 		instances += "<li onclick=\"startInstance('"+instance+"')\">"+instance+" - ";
@@ -48,10 +52,23 @@ function updateInstance(){
 	//make sure instance is visible
 	$("#"+(isHero?"pl":"ol")+"overworld").addClass("invisible");
 	$("#"+(isHero?"pl":"ol")+"instance").removeClass("invisible");
+	//Overlord
+	var players = "";
+	for(p in d.hero){
+		players += "<li>"+d.hero[p].hero+" L:"+d.hero[p].level+" C:"+d.hero[p].curses+"</li>";
+	}
+	$("#killplayer").html(players);
 }
 function createCampaign(){
 	//Open first campaign creation div
 	$("#setup1").removeClass("invisible");
+	$("#setup1").children().children().children().children().children()[0].focus();
+}
+function setup(that){
+	var mum = $(that).parents('div')[0];
+	$(mum).next().removeClass('invisible');
+	$(mum).addClass('invisible');
+	//$(mum).children().children().children().children().children()[0].focus();
 }
 function completeSetup(form){
 	$("#loadblock").removeClass("invisible");
