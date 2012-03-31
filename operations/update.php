@@ -19,6 +19,14 @@ function action($action,$player = 0,$gold = 0,$overlord = 0,$hero = null,$xp = 0
 	$bones['heroes']['conquest'] += $player;
 	$bones['heroes']['gold'] += $gold;
 	$bones['overlord']['conquest'] += $overlord;
+	if(isset($hero)){
+		if($hero=="Overlord"){
+			$bones['overlord']['xp'] += $xp;
+		} else {
+			$bones['hero'][$hero]['xp'] += $xp;
+		}
+	
+	}
 }
 if(!isset($_GET['cid'])){
 	error("Campaign ID not supplied.");
@@ -87,12 +95,17 @@ switch ($do){
 	case("curse"):
 		$bones['hero'][$to]['curses']++;
 		break;
+	case("card"):
+		list($cost, $item) = sscanf($to,"%i%[^\n]");
+		action("Overlord purchased ".$item,0,0,0,"Overlord",$cost);
+		break;
 	case("chest"):
 		//roll
 		break;
 	case("deck"):
 		//overlord gets through deck
 		action("Overlord Deck renewed",0,0,3);
+		$bones['level']['deck']++;
 		break;
 	case("glyph"):
 		action("Unlocked Glyph",3);

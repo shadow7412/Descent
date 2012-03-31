@@ -13,6 +13,8 @@ var d = null;        //The big d. Contains the full game state.
 var log = null;		 //The datatables reference - for refreshing ajax info.
 var oldmessage = null;//So we don't get messages everytime the page reloads.
 
+//For FF compatability
+if(console == null) console={"log":function(){},"error":function(){}};
 /* Update functions */
 //Callback for update(), recieves the result and makes sure it's valid(ish) before pumping it through the works
 //Sets global(ish) placeholers
@@ -60,10 +62,16 @@ function updateOverworld(){
 			instances+="</li>";
 		}
 		$("#hoinstances").html(instances);
+		var stats = "";
+		for(p in d.hero){
+			stats += "<li>"+d.hero[p].hero+"<br/>"+(d.heroes.conquest - d.hero[p].xp)+"XP</li>";
+		}
+		$('#postats').html(stats);
 	} else { //overlord
 		
 	}
 }
+
 //Updates instance view for player/overlord
 function updateInstance(){
 	//make sure instance is visible
@@ -72,7 +80,13 @@ function updateInstance(){
 	$("#"+(isHero?"pl":"ol")+"instance").removeClass("invisible");
 	//Overlord
 	if(isHero){
-		
+		if(d.instances[d.heroes.location].numberolevels == d.instances[d.heroes.location]){
+			$('#plexit').html("Exit Dungeon");
+			$('#plexit')[0].onclick = "action('finish','dungeon')";
+		} else {
+			$('#plexit').html("Enter Portal to go Deeper");
+			$('#plexit')[0].onclick = "action('finish','level')";
+		}
 	} else { //overlord
 		var players = "";
 		var curses = "";
@@ -82,6 +96,8 @@ function updateInstance(){
 		}
 		$("#olkillplayer").html(players);
 		$("#olcurseplayer").html(curses);
+		if(d.level.deck>0) $('#oideck')[0].style.background = "red";
+		else $('#oideck')[0].style.background = "";
 	}
 }
 
@@ -113,7 +129,19 @@ function doInstance(name){
 			action("discover",name);
 	}
 }
-
+function olCard(){
+	$('#dialog').html("<form><table><tr><td>Name of card:</td><td><input name=\"name\"/></td></tr><tr><td>Cost to play:</td><td><input name=\"cost\" onkeydown=\"return isNumberKey(event)\"/></td></tr></form>");
+	$('#dialog').dialog({
+		buttons: [
+			{
+				text:"Play",
+				click:function(){action("card",this.children[0].cost.value+this.children[0].name.value);$(this).dialog("close");}
+			},{
+				text:"Cancel",
+				click:function(){$(this).dialog("close")}
+			}]
+	});
+}
 /* Low-level functions*/
 //if console doesn't work, then just stay quiet instead of breaking javascript
 if(console==null) console = {"log":function(){},"error":function(){}};
