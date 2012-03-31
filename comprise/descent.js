@@ -19,13 +19,8 @@ function updateJSON(de){
 		console.error("Invalid JSON... maybe.");
 		return;
 	} else if(de.error){
-		if(de.error=="login"){
-			message("The password for this campaign was not recognised.");
-			$('.main').addClass("invisible");
-			$('#loadstart').removeClass("invisible");
-		}
 		console.log(de.error);
-		return;
+		return false;
 	}
 	d = de; //pump it out into global space
 	$('#loadblock').addClass('invisible');//remove pane if it was showing
@@ -94,8 +89,9 @@ function action(type,to){
 	clearInterval(timer);
 	timer = null;
 	$('#loadblock').removeClass('invisible');
-	$.post("operations/update.php?cid="+campaign,"do="+type+"&to="+to,function(a){
+	$.post("operations/update.php?cid="+campaign,"action="+type+"&to="+to,function(a){
 															timer = setInterval("update()",pollRate);
+															console.log("Updated with", a);
 															updateJSON(a);
 														});
 }

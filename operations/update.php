@@ -14,7 +14,7 @@ function action($action,$player = 0,$gold = 0,$overlord = 0,$hero = null,$xp = 0
 	//add to log
 	$db->query("SELECT MAX(`actionid`) AS 'aid' FROM `log` WHERE `campaign`='$cid'");
 	if($row = $db->get()) $aid = $row['aid']+1;
-	$db->query("INSERT INTO `log` (`campaign`,`actionid`,`week`,`summary`,`player`,`gold`,`overlord`) VALUES ('$cid','$aid','$week','$action','$player','$gold','$overlord')");
+	$db->query("INSERT INTO `log` (`campaign`,`actionid`,`week`,`summary`,`player`,`gold`,`overlord`,`hero`,`xp`) VALUES ('$cid','$aid','$week','$action','$player','$gold','$overlord','$hero','$xp')");
 	//update state
 	$bones['heroes']['conquest'] += $player;
 	$bones['heroes']['gold'] += $gold;
@@ -45,13 +45,14 @@ if($row['password'] != "d41d8cd98f00b204e9800998ecf8427e"){ //md5("") == d41d8cd
 //TAKING INPUT - from either post or get - but favoring post.
 @$do = isset($_POST['action'])?$_POST['action']:$_GET['action'];
 @$to = isset($_POST['to'])?$_POST['to']:$_GET['to'];
+
 //If there haven't been changes - just give the state as it came from the database
 if(!isset($do))die($row['state']);
 
 //There are changes - pull apart json so it can be worked with in php
 $bones = json_decode($row['state'],true);
-$week = $bones['week'];
-//js will have sent action(do,to);
+$bones['message']="";
+//js will have sent action(action,to);
 switch ($do){
 	case("timepasses"):
 		//A week passes.
@@ -71,7 +72,7 @@ switch ($do){
 		//Mark as discovered (if entering, we are also discovering if not already)
 		if($bones['instances'][$to]['discovered'] == false){
 			$bones['instances'][$to]['discovered'] = true;
-			action("Discovered ".$to,50);
+			action("Discovered ".$to,5);
 		}
 		break;
 	case("death"):
@@ -115,22 +116,28 @@ switch ($do){
 		switch ($to){
 			case ("level"):
 				//CONQUEST/MONEY HERE
+				$bones['instance'][$bones['heroes']['location']]['level']++;
+				$bones['level']['bossdead'] = false;
+				$bones['level']['deck'] = 0;
 				break;
 			case ("dungeon"):
 				$bones['instances'][$bones['heroes']['location']]['completed'] = true;
 				//CONQUEST/MONEY HERE
 				$bones['heroes']['location'] = "overworld";
+				$bones['level']['bossdead'] = false;
+				$bones['level']['deck'] = 0;
 				break;
 			case ("flee"):
+				$bones['level']['deck'] = 0;
 				$bones['instances'][$bones['heroes']['location']]['fled'] = true;
+				$bones['level']['bossdead'] = false;
 				$bones['heroes']['location'] = "overworld";
 				break;
 		}
-		//update tier
-		//set location to overworld
+		break;
 	default:
-	
-	}
+		error("Unknown action given.");
+}
 /*Work out how long it actually took and pump out json*/
 $time = explode(' ', microtime());
 $time = $time[1] + $time[0];
