@@ -10,6 +10,8 @@ var isHero = null;   //Is the player on the hero side or the overlord side?
 var campaign = null; //The id of the campaign
 var timer = null;    //The timer reference - so it can be cancelled
 var d = null;        //The big d. Contains the full game state.
+var log = null;		 //The datatables reference - for refreshing ajax info.
+var oldmessage = null;//So we don't get messages everytime the page reloads.
 
 /* Update functions */
 //Callback for update(), recieves the result and makes sure it's valid(ish) before pumping it through the works
@@ -24,12 +26,13 @@ function updateJSON(de){
 	}
 	d = de; //pump it out into global space
 	$('#loadblock').addClass('invisible');//remove pane if it was showing
-	if(d.message != null && d.message != ""){
+	if(d.message != null && d.message != ""&& d.message != oldmessage){
 		$('#dialog').html(d.message);
 		$('#dialog').dialog();
+		oldmessage = d.message;
 	}
 	$("#graphtotier").progressbar({value: (((d.heroes.conquest + d.overlord.conquest)-(d.tier*200))/2)});//progress bar will autocap at 100%
-	$("#ticker").html("Hero Conquest: "+d.heroes.conquest+", Hero Gold: "+d.heroes.gold+", Overlord Conquest: "+d.overlord.conquest+", Divine Favour:"+parseInt(d.heroes.conquest-d.overlord.conquest)/25);
+	$("#ticker").html("Week: "+d.week+", Hero Conquest: "+d.heroes.conquest+", Hero Gold: "+d.heroes.gold+", Overlord Conquest: "+d.overlord.conquest+", Divine Favour:"+parseInt((d.heroes.conquest-d.overlord.conquest)/25));
 	//update the applicable view:
 	if(d.heroes.location=="overworld")
 		updateOverworld();
@@ -58,7 +61,7 @@ function updateOverworld(){
 		}
 		$("#hoinstances").html(instances);
 	} else { //overlord
-	
+		
 	}
 }
 //Updates instance view for player/overlord
@@ -72,10 +75,13 @@ function updateInstance(){
 		
 	} else { //overlord
 		var players = "";
+		var curses = "";
 		for(p in d.hero){
-			players += "<li onclick=\"action('death',"+p+")\">"+d.hero[p].hero+" L:"+d.hero[p].level+" C:"+d.hero[p].curses+"</li>";
+			players += "<li onclick=\"action('death',"+p+")\">"+d.hero[p].hero+"<br/>L:"+d.hero[p].level+"<br/>C:"+d.hero[p].curses+"</li>";
+			curses += "<li onclick=\"action('curse',"+p+")\">Curse<br/>"+d.hero[p].hero+"</li>";
 		}
-		$("#killplayer").html(players);
+		$("#olkillplayer").html(players);
+		$("#olcurseplayer").html(curses);
 	}
 }
 
@@ -98,6 +104,7 @@ function action(type,to){
 function doInstance(name){
 	if(d.instances[name].fled || d.instances[name].completed){
 		//Fill in all instance details
+		$("#instance").html("Got to level "+d.instances[name].level+"/"+d.instances[name].numberoflevels+" and died "+(d.instances[name].deaths[0]+d.instances[name].deaths[1]+d.instances[name].deaths[2]+d.instances[name].deaths[3])+" times");
 		$("#instance").dialog({title:name});
 	} else {
 		if(confirm("Do you want to enter "+name+"?"))

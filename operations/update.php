@@ -57,7 +57,7 @@ switch ($do){
 	case("timepasses"):
 		//A week passes.
 		//update tier
-		if(($message[$bones['tier']]<3) && ($bones['tier']*200+200) < ($bones['overlord']['conquest']+$bones['heroes']['conquest'])){
+		if(($bones['tier']<3) && ($bones['tier']*200+200) < ($bones['overlord']['conquest']+$bones['heroes']['conquest'])){
 			$message = array("Welcome to SILVER tier.","Welcome to GOLD tier.","Prepare for the final battle!",);
 			$bones['message'] = $message[$bones['tier']];
 			$bones['tier']++;
@@ -79,14 +79,17 @@ switch ($do){
 		//to = array element of player
 		$divine = intVal(($bones['heroes']['conquest']-$bones['overlord']['conquest'])/25);
 		$cost = $bones['hero'][$to]['level'] + $divine;
-		if($cost < 1) $cost = 1; //can't cost less than one
+		if($cost < 0) $cost = 0; //can't cost less than one
 		action("Death of ".$bones['hero'][$to]['hero']." (Divine: $divine)",0,0,$cost+$bones['hero'][$to]['curses']);
 		$bones['hero'][$to]['curses'] = 0; //reset number of curses
 		$bones['hero'][$to]['deaths']++; //reset number of curses
+		break;
 	case("curse"):
-		//player
+		$bones['hero'][$to]['curses']++;
+		break;
 	case("chest"):
 		//roll
+		break;
 	case("deck"):
 		//overlord gets through deck
 		action("Overlord Deck renewed",0,0,3);
