@@ -123,6 +123,7 @@ switch ($do){
 		action("Death of ".$bones['hero'][$to]['hero']." (Divine: $divine)",0,0,$cost+$bones['hero'][$to]['curses']);
 		$bones['hero'][$to]['curses'] = 0; //reset number of curses
 		$bones['hero'][$to]['deaths']++; //reset number of curses
+		$bones['instances'][$bones['heroes']['location']]['deaths'][$to]++; //add death to instance
 		break;
 	case("curse"):
 		$bones['hero'][$to]['curses']++;

@@ -98,7 +98,7 @@ function updateInstance(){
 		var players = "";
 		var curses = "";
 		for(p in d.hero){
-			players += "<li onclick=\"action('death',"+p+")\">"+d.hero[p].hero+"<br/>L:"+d.hero[p].level+"<br/>C:"+d.hero[p].curses+"</li>";
+			players += "<li onclick=\"action('death',"+p+")\">"+d.hero[p].hero+"<br/>L:"+d.hero[p].level+"<br/>C:"+d.hero[p].curses+"<br/>K: "+d.instances[d.heroes.location].deaths[p]+"</li>";
 			curses += "<li onclick=\"action('curse',"+p+")\">Curse<br/>"+d.hero[p].hero+"</li>";
 		}
 		$("#olkillplayer").html(players);
