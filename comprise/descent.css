@@ -4,10 +4,10 @@ html, body {
 	margin: 0;
 	padding: 0;
 }
-.invisible {
+.invisible{
 	display:none;
 }
-.main {
+.main{
 	min-width:100%;
 	min-height:100%;
 	background-color:#EEE;
@@ -39,7 +39,7 @@ ul.box li:hover{
 }
 
 /* Setup screens*/
-.campaignselect {
+.campaignselect{
 	background:#CCC;
 	width:600px;
 	height:100px;
@@ -55,32 +55,32 @@ ul.box li:hover{
 .campaignselect.gold{
 	background:rgb(201,137,16);
 }
-.campaignselect th {
+.campaignselect th{
 	text-align:left;
 }
-.campaignselect:hover {
+.campaignselect:hover{
 	background:#AAF;
 }
-.campaignselect input {
+.campaignselect input{
 	width:100px;
 }
 .setup{
 	background:#BBB;
 }
-#whichside {
+#whichside{
 	height:100%;
 	width:100%;
 }
-#whichside div {
+#whichside div{
 	text-align:center;
 	height:100%;
 	width:50%;
 }
-#whichside span {
+#whichside span{
 	display:block;
 	height:30%;
 }
-#whichside div:hover {
+#whichside div:hover{
 	background:#BBB;
 }
 #whichside img{

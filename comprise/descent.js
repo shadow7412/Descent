@@ -2,7 +2,6 @@
 Things worth knowing:
 action(do,to) <-posts to update function. Most onclicks will use this. Resets the updater after getting the latest info.
 pollRate <- how often the state is refreshed
-
 */
 /*Global variables*/
 var pollRate = 3000; //How often (in milliseconds) should the game state be refreshed?
@@ -50,28 +49,32 @@ function updateOverworld(){
 	if(isHero){//hero
 		var instances = "";
 		for(instance in d.instances){
-			instances += "<li onclick=\"doInstance('"+instance+"')\">"+instance+" - ";
-			if(d.instances[instance].completed)
-				instances+="Completed";
-			else if(d.instances[instance].fled)
-				instances+="Fled";
-			else if(d.instances[instance].discovered)
-				instances+="Discovered";
-			else
-				instances+="Not Discovered";
-			instances+="</li>";
+			if((d.tier==3)==(instance=="Final Battle")){//show only final battle in plat tier, otherwise only show everything else
+				instances += "<li onclick=\"doInstance('"+instance+"')\">"+instance+" - ";
+				if(d.instances[instance].completed)
+					instances+="Completed";
+				else if(d.instances[instance].fled)
+					instances+="Fled";
+				else if(d.instances[instance].discovered)
+					instances+="Discovered";
+				else
+					instances+="Not Discovered";
+				instances+="</li>";
+			}
 		}
 		$("#hoinstances").html(instances);
 		var stats = "";
 		for(p in d.hero){
-			stats += "<li>"+d.hero[p].hero+"<br/>"+(d.heroes.conquest - d.hero[p].xp)+"XP</li>";
+			stats += "<li onclick=\"plUpgrade("+p+")\">"+d.hero[p].hero+"<br/>"+(d.heroes.conquest - d.hero[p].xp)+"XP</li>";
 		}
 		$('#postats').html(stats);
 	} else { //overlord
-		
+		var deadcities = 0;
+		for(city in d.cities) if(d.cities[city].razed == true) deadcities++;
+		$('#ootime').html("Time passes<br/>"+deadcities+" razed");
+		$('#oocard').html("Play Card<br/>"+(d.overlord.conquest-d.overlord.xp)+"XP");
 	}
 }
-
 //Updates instance view for player/overlord
 function updateInstance(){
 	//make sure instance is visible
@@ -80,14 +83,18 @@ function updateInstance(){
 	$("#"+(isHero?"pl":"ol")+"instance").removeClass("invisible");
 	//Overlord
 	if(isHero){
-		if(d.instances[d.heroes.location].numberolevels == d.instances[d.heroes.location]){
-			$('#plexit').html("Exit Dungeon");
-			$('#plexit')[0].onclick = "action('finish','dungeon')";
-		} else {
-			$('#plexit').html("Enter Portal to go Deeper");
-			$('#plexit')[0].onclick = "action('finish','level')";
-		}
+		var lastlevel = d.instances[d.heroes.location].numberoflevels == d.instances[d.heroes.location].level;
+		$("#piname").html(d.heroes.location + " " + d.instances[d.heroes.location].level+"/"+d.instances[d.heroes.location].numberoflevels);
+		$('#plexit').html(lastlevel?"Exit Dungeon":"Enter Portal to Level "+(d.instances[d.heroes.location].level+1));
+		if(d.level.bossdead)
+			$('#plboss')[0].outerHTML = "<li id=\"plboss\">Boss Already Dead</li>"
+		else
+			if(d.heroes.location == "Lieutenant Battle")
+				$('#plboss')[0].outerHTML = "<li id=\"plboss\" onclick=\"action('kill','lieutenant')\">Kill Lieutenant</li>"
+			else
+				$('#plboss')[0].outerHTML =	lastlevel?"<li id=\"plboss\" onclick=\"action('kill','fboss')\">Kill Final Boss</li>":"<li id=\"plboss\" onclick=\"action('kill','boss')\">Kill Boss</li>";
 	} else { //overlord
+		$("#oiname").html(d.heroes.location + " " + d.instances[d.heroes.location].level+"/"+d.instances[d.heroes.location].numberoflevels);
 		var players = "";
 		var curses = "";
 		for(p in d.hero){
@@ -121,7 +128,21 @@ function doInstance(name){
 	if(d.instances[name].fled || d.instances[name].completed){
 		//Fill in all instance details
 		$("#instance").html("Got to level "+d.instances[name].level+"/"+d.instances[name].numberoflevels+" and died "+(d.instances[name].deaths[0]+d.instances[name].deaths[1]+d.instances[name].deaths[2]+d.instances[name].deaths[3])+" times");
-		$("#instance").dialog({title:name});
+		$("#instance").dialog({
+			title:name,
+			buttons:[
+				{
+				text:"Reopen",
+				click:function(){
+					if(confirm('This is not usually possible, but some cards or events may trigger this. Are you sure?')){
+						action("reopen",$(this).dialog("option", "title"));
+						$(this).dialog("close");
+					}
+				}
+			},{
+				text:"Close",
+				click:function(){$(this).dialog("close");}
+			}]});
 	} else {
 		if(confirm("Do you want to enter "+name+"?"))
 			action("enter",name);
@@ -141,6 +162,52 @@ function olCard(){
 				click:function(){$(this).dialog("close")}
 			}]
 	});
+}
+function olRaze(){
+	var raze="<ul class=\"box\">";
+	for(city in d.cities){
+		if(d.cities[city].razed)
+			raze+="<li>"+city+"<br/>(Already razed)</li>";
+		else
+			raze+="<li onclick=\"action('raze','"+city+"');$(this).parent().parent().dialog('close');\">"+city+"</li>";
+	}
+	$('#dialog').html(raze+"</ul>");
+	$('#dialog').dialog({
+		width:550,
+		buttons: [
+			{
+				text:"Cancel",
+				click:function(){$(this).dialog("close")}
+			}]
+	});
+}
+function plRumour(){
+	var rum = "<ul class=\"box\">";
+	for(i in d.instances){
+		if(d.instances[i].fled==false && d.instances[i].completed==false && d.instances[i].physical==true)
+			rum += "<li onclick=\"plSetRumour('"+i+"');$(this).parent().parent().dialog('close')\">"+i+"</li>";
+	}
+	$('#dialog').html(rum+"</ul>");
+	$('#dialog').dialog({
+		width:550,
+		buttons: [
+			{
+				text:"Ignore",
+				click:function(){action('rumour');$(this).dialog("close")}
+			},{
+				text:"Cancel",
+				click:function(){$(this).dialog("close")}
+			}]
+	});
+}
+function plSetRumour(i){
+	action("rumour",i);
+}
+function plExit(){
+	if(d.instances[d.heroes.location].level == d.instances[d.heroes.location].numberoflevels)
+		action("finish","dungeon");
+	else
+		action("finish","level");
 }
 /* Low-level functions*/
 //if console doesn't work, then just stay quiet instead of breaking javascript
@@ -265,6 +332,7 @@ function setPlayer(p){ //true = heroes
 	$(".control").removeClass('invisible');
 	$('#loadblock').addClass('invisible');
 	location.hash = (isHero?"p":"o")+campaign;
+	clearInterval(timer);
 	update();
 	timer = setInterval("update()",pollRate);
 }
@@ -275,4 +343,11 @@ function isNumberKey(evt){
 		return false;
 	else
 		return true;
+}
+//add ordinal function to Number object
+Number.prototype.ordinal=function(){
+    var nModTen = this % 10;
+    return (this + ['th','st','nd','rd'][nModTen > 3 ?
+        0 :
+        ( this % 100 - nModTen != 10) * nModTen]);
 }

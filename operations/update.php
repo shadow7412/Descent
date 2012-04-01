@@ -62,6 +62,7 @@ $bones = json_decode($row['state'],true);
 $bones['message']="";
 //js will have sent action(action,to);
 switch ($do){
+//Overworld
 	case("timepasses"):
 		//A week passes.
 		//update tier
@@ -72,6 +73,36 @@ switch ($do){
 		}
 		//increment gameweek
 		$bones['week']++;
+		$overlord = 1;
+		//Reward overlord
+		foreach($bones['cities'] as $b){
+			if($b['razed']==true) $overlord++;
+		}
+		action("Time passes (Week {$bones['week']})",0,0,$overlord);
+		break;
+	case("raze"):
+		if(isset($to,$bones['cities'][$to])){
+			$bones['cities'][$to]['razed']=true;
+		} else {
+			$bones['message'] = "Overlord typed city to raze incorrectly. Check case.";
+		}
+		break;
+	case("rumour"):
+		if(empty($to))
+			action("Rumour heard - but ignored",0,-50-(50*$bones['tier']));
+		else {
+			action("Rumour heard about ".$to,0,-50-(50*$bones['tier']));
+			$bones['heroes']['rumour'] = $to;
+		}
+		break;
+	case("reopen"):
+		$bones['instances'][$to]['completed'] = false;
+		$bones['instances'][$to]['deaths'] = array(0,0,0,0);
+		$bones['instances'][$to]['gold'] = 0;
+		$bones['instances'][$to]['hero'] = 0;
+		$bones['instances'][$to]['overlord'] = 0;
+		$bones['instances'][$to]['level'] = 1;
+		$bones['message'] = "$to was reset.";
 		break;
 	case("enter"):
 		//Enter an instance
@@ -83,6 +114,7 @@ switch ($do){
 			action("Discovered ".$to,5);
 		}
 		break;
+//Instance
 	case("death"):
 		//to = array element of player
 		$divine = intVal(($bones['heroes']['conquest']-$bones['overlord']['conquest'])/25);
@@ -99,7 +131,7 @@ switch ($do){
 		list($cost, $item) = sscanf($to,"%i%[^\n]");
 		action("Overlord purchased ".$item,0,0,0,"Overlord",$cost);
 		break;
-	case("chest"):
+	//case("chest"):
 		//roll
 		break;
 	case("deck"):
@@ -117,10 +149,12 @@ switch ($do){
 				action("Killed Master",0,50);
 				break;
 			case("boss"):
-				action("Killed Boss",5,100);
+				action("Killed Boss",2,100);
+				$bones['level']['bossdead']=true;
 				break;
 			case("fboss"):
-				action("Killed Final Boss",0,50);
+				action("Killed Final Boss",4,250);
+				$bones['level']['bossdead']=true;
 				break;
 			case("lieutenant"):
 				action("Killed Lieutentant",5,200);
@@ -132,7 +166,7 @@ switch ($do){
 		switch ($to){
 			case ("level"):
 				//CONQUEST/MONEY HERE
-				$bones['instance'][$bones['heroes']['location']]['level']++;
+				$bones['instances'][$bones['heroes']['location']]['level']++;
 				$bones['level']['bossdead'] = false;
 				$bones['level']['deck'] = 0;
 				break;

@@ -4,7 +4,7 @@ City:
 	<li>Train</li>
 	<li>Alchemist</li>
 	<li>Port</li>
-	<li>Pub</li>
+	<li onclick="plRumour()">Pub</li>
 </ul>
 <ul class="box">
 	<li onclick="action('enter','Encounter')">Encounter</li>

@@ -9,13 +9,18 @@ $instances = array(
 	"island"=>false,
 	"numberoflevels"=>3,
 	"level"=>1,
-	"gold"=>1,
+	"gold"=>0,
 	"deaths"=>array(0,0,0,0),
 	"hero"=>0,
 	"overlord"=>0,
+	"physical"=>true,
 );
-$islands = $instances;
+$islands = $encounter = $lieu = $final = $instances;
 $islands['island'] = true;
+$encounter['island'] = true;
+$encounter['numberoflevels'] = $encounter['lieu'] = 1;
+$final['numberoflevels'] = 5;
+$final['physical'] = $encounter['physical'] = $lieu['physical'] = false;
 $cities = array("razed"=>false);
 
 //Create new campaign
@@ -83,7 +88,11 @@ $bones = array(
 		"Trelton"=>$cities,
 	),
 	"instances"=>array(
-		"Azure Peaks"=>$instances,
+		//Situational
+		"Lieutenant Battle"=>$lieu,
+		"Encounter"=>$encounter,
+		"Final Battle"=>$final,
+		//Places
 		"Azure Peaks"=>$instances,
 		"Barren Moors"=>$instances,
 		"Bog of Vipers"=>$instances,

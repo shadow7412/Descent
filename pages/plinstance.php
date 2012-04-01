@@ -1,3 +1,4 @@
+<h1 id="piname"></h1>
 Stats:
 <ul id="playerstats">
 </ul>
@@ -7,5 +8,5 @@ Stats:
 	<li onclick="action('kill','master')">Kill Master</li>
 	<li id="plboss">Kill Boss</li>
 	<li onclick="action('finish','flee')">Flee Dungeon</li>
-	<li id="plexit">Exit</li>
+	<li id="plexit" onclick="plExit()">Exit</li>
 </ul>
