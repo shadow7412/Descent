@@ -48,17 +48,20 @@ function updateOverworld(){
 	
 	if(isHero){//hero
 		var instances = "";
+		var className = "";
 		for(instance in d.instances){
 			if((d.tier==3)==(instance=="Final Battle")){//show only final battle in plat tier, otherwise only show everything else
-				instances += "<li onclick=\"doInstance('"+instance+"')\">"+instance+" - ";
-				if(d.instances[instance].completed)
-					instances+="Completed";
+				if(instance == d.heroes.rumour)
+					className="instancerumour"
+				else if(d.instances[instance].completed)
+					className="instancecompleted"
 				else if(d.instances[instance].fled)
-					instances+="Fled";
+					className="instancefled"
 				else if(d.instances[instance].discovered)
-					instances+="Discovered";
+					className="instancediscovered"
 				else
-					instances+="Not Discovered";
+					className="instanceunknown"
+				instances += "<li class=\""+className+"\" onclick=\"doInstance('"+instance+"')\">"+instance+" - "+className;
 				instances+="</li>";
 			}
 		}
@@ -202,6 +205,28 @@ function plRumour(){
 }
 function plSetRumour(i){
 	action("rumour",i);
+}
+function plChest(){
+	var table = '<form><table><tr><td></td><td>Power</td><td>Surge</td><td>Blank</td></tr>';
+	   table += '<tr><td>First Dice</td><td><input type="radio" name="first" value="p" checked></td><td><input type="radio" name="first" value="s"></td><td><input type="radio" name="first" value="b"></td></input>';
+	   table += '<tr><td>Second Dice</td><td><input type="radio" name="second" value="p" checked></td><td><input type="radio" name="second" value="s"></td><td><input type="radio" name="second" value="b"></td></input>';
+	   table += '<tr><td>Third Dice</td><td><input type="radio" name="third" value="p" checked></td><td><input type="radio" name="third" value="s"></td><td><input type="radio" name="third" value="b"></td></input>';
+	   table += '<tr><td>Fourth Dice</td><td><input type="radio" name="fourth" value="p" checked></td><td><input type="radio" name="fourth" value="s"></td><td><input type="radio" name="fourth" value="b"></td></input>';
+	   table += "</table></form>";
+	$('#dialog').html(table);
+	$('#dialog').dialog({
+	buttons: [
+		{
+			text:"Submit",
+			click:function(){var data = $(this).children('form').serializeArray(); console.log(data);action("chest",data[0].value+data[1].value+data[2].value+data[3].value);$(this).dialog("close");}
+		},{
+			text:"Cancel",
+			click:function(){$(this).dialog("close")}
+		}]
+});
+}
+function plBarrel(){
+	
 }
 function plExit(){
 	if(d.instances[d.heroes.location].level == d.instances[d.heroes.location].numberoflevels)

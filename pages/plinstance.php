@@ -3,8 +3,9 @@ Stats:
 <ul id="playerstats">
 </ul>
 <ul class="box">
-	<li>Open chest</li>
+	<li onclick="plChest()">Open chest</li>
 	<li>Smash barrel</li>
+	<li onclick="action('glyph')">Open Glyph</li>
 	<li onclick="action('kill','master')">Kill Master</li>
 	<li id="plboss">Kill Boss</li>
 	<li onclick="action('finish','flee')">Flee Dungeon</li>

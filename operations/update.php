@@ -97,6 +97,8 @@ switch ($do){
 		break;
 	case("reopen"):
 		$bones['instances'][$to]['completed'] = false;
+		$bones['instances'][$to]['fled'] = false;
+		$bones['instances'][$to]['discovered'] = false;
 		$bones['instances'][$to]['deaths'] = array(0,0,0,0);
 		$bones['instances'][$to]['gold'] = 0;
 		$bones['instances'][$to]['hero'] = 0;
@@ -111,7 +113,7 @@ switch ($do){
 		//Mark as discovered (if entering, we are also discovering if not already)
 		if($bones['instances'][$to]['discovered'] == false){
 			$bones['instances'][$to]['discovered'] = true;
-			action("Discovered ".$to,5);
+			action("Discovered ".$to,1);
 		}
 		break;
 //Instance
@@ -132,8 +134,20 @@ switch ($do){
 		list($cost, $item) = sscanf($to,"%i%[^\n]");
 		action("Overlord purchased ".$item,0,0,0,"Overlord",$cost);
 		break;
-	//case("chest"):
+	case("chest"):
 		//roll
+		$extraconquest = 1;
+		$gold = 0;
+		foreach($to as $die){
+			if($die == 'p'){
+				//TODO
+			} elseif($die == 's') {
+				//TODO
+			} elseif($die == 'b'){
+				$extraconquest = 0;
+			}
+		}
+		action("Opened chest",$extraconquest,$gold,0);
 		break;
 	case("deck"):
 		//overlord gets through deck
