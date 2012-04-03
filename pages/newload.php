@@ -31,7 +31,7 @@ $instances = array("Azure Peaks","Barren Moors","Bog of Vipers","Crystal Caves",
 	<h2>Player 1 Setup</h2>
 		<table>
 		<tr><td>Player's Name</td><td><input name="h1player" value="Henry McDonald"/></td></tr>
-		<tr><td>Hero's Name</td><td><input name="h1name" value="Nanok of the Blade"/></td></tr>
+		<tr><td>Hero's Name</td><td><input name="h1name" value="Nanok of the Blade" class="heroName"/></td></tr>
 		<tr><td>Hero's Level</td><td><input name="h1level" value="4" onkeypress="return isNumberKey(event)"/></td></tr>	
 		<tr><td><button onclick="setup(this);return false">Next (3/7)</button><button onclick="cancelSetup(this.form);return false">Cancel</button></td></tr>
 		</table>
@@ -40,7 +40,7 @@ $instances = array("Azure Peaks","Barren Moors","Bog of Vipers","Crystal Caves",
 	<h2>Player 2 Setup</h2>
 		<table>
 		<tr><td>Player's Name</td><td><input name="h2player" value="Doug Flemington"/></td></tr>
-		<tr><td>Hero's Name</td><td><input name="h2name" value="Varikas the Dead"/></td></tr>
+		<tr><td>Hero's Name</td><td><input name="h2name" value="Varikas the Dead" class="heroName"/></td></tr>
 		<tr><td>Hero's Level</td><td><input name="h2level" value="4" onkeypress="return isNumberKey(event)"/></td></tr>
 		<tr><td><button onclick="setup(this);return false">Next (4/7)</button><button onclick="cancelSetup(this.form);return false">Cancel</button></td></tr>
 		</table>
@@ -49,7 +49,7 @@ $instances = array("Azure Peaks","Barren Moors","Bog of Vipers","Crystal Caves",
 	<h2>Player 3 Setup</h2>
 		<table>
 		<tr><td>Player's Name</td><td><input name="h3player" value="Charlie Quagmire"/></td></tr>
-		<tr><td>Hero's Name</td><td><input name="h3name" value="Runewitch Astarra"/></td></tr>
+		<tr><td>Hero's Name</td><td><input name="h3name" value="Runewitch Astarra" class="heroName"/></td></tr>
 		<tr><td>Hero's Level</td><td><input name="h3level" value="2" onkeypress="return isNumberKey(event)"/></td></tr>	
 		<tr><td><button onclick="setup(this);return false">Next (5/7)</button><button onclick="cancelSetup(this.form);return false">Cancel</button></td></tr>
 		</table>
@@ -58,7 +58,7 @@ $instances = array("Azure Peaks","Barren Moors","Bog of Vipers","Crystal Caves",
 	<h2>Player 4 Setup</h2>
 		<table>
 		<tr><td>Player's Name</td><td><input name="h4player" value="Stephanie Stephens"/></td></tr>
-		<tr><td>Hero's Name</td><td><input name="h4name" value="Bogran the Shadow"/></td></tr>
+		<tr><td>Hero's Name</td><td><input name="h4name" value="Bogran the Shadow" class="heroName"/></td></tr>
 		<tr><td>Hero's Level</td><td><input name="h4level" value="2" onkeypress="return isNumberKey(event)"/></td></tr>	
 		<tr><td><button onclick="setup(this);return false">Next (6/7)</button><button onclick="cancelSetup(this.form);return false">Cancel</button></td></tr>
 		</table>

@@ -138,12 +138,12 @@ switch ($do){
 		//roll
 		$extraconquest = 1;
 		$gold = 0;
-		foreach($to as $die){
-			if($die == 'p'){
-				//TODO
-			} elseif($die == 's') {
-				//TODO
-			} elseif($die == 'b'){
+		for($i=0;$i!=4;$i++){
+			if($to[$i] == 'p'){
+				$gold+=($bones['tier']+1)*100;
+			} elseif($to[$i] == 's') {
+				$gold+=($bones['tier']+1)*50;
+			} elseif($to[$i] == 'b'){
 				$extraconquest = 0;
 			}
 		}

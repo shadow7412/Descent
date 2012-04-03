@@ -10,7 +10,7 @@ $db = new db; //Create database object
 		<link rel="stylesheet" type="text/css" href="comprise/descent.css" />
 		<script type="text/javascript" src="comprise/js.php"></script>
 	</head>
-	<body onload="checkHash()">
+	<body onload="startup()">
 		<div id="loadblock" class="ui-widget-overlay invisible" style="z-index: 1001; width: 100%; height: 100%;"><!-- For display when we don't want to recieve input --></div>
 		<div id="dialog" class="invisible" title="Message"></div>
 		<div id="instance" class="invisible">

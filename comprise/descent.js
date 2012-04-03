@@ -243,7 +243,7 @@ function message(message){
 	$('#dialog').dialog();
 }
 //Checks page hash at start of game.
-function checkHash(){
+function startup(){
 	//hashes are in the form px - p=player type (1 character, x=campaign id
 	if(location.hash != ""){
 		if(location.hash.substr(1,1)=='p'){
@@ -259,6 +259,9 @@ function checkHash(){
 		}
 		$('#newload').addClass('invisible');
 	}
+	$(".heroName").autocomplete({
+		source: heroNames
+	});
 }
 //Force refresh
 function refresh(){
@@ -379,3 +382,52 @@ Number.prototype.ordinal=function(){
         0 :
         ( this % 100 - nModTen != 10) * nModTen]);
 }
+
+var heroNames = Array("Andira Runehand",
+						"Arvel Worldwalker",
+						"Aurim",
+						"Battlemage Jaes",
+						"Bogran the Shadow",
+						"Brother Gherinn",
+						"Brother Glyr",
+						"Challara",
+						"Corbin",
+						"Eliam",
+						"Grey Ker",
+						"Hugo the Glorious",
+						"Ispher",
+						"Jonas the Kind",
+						"Karnon",
+						"Kirga",
+						"Krutzbeck",
+						"Landrec the Wise",
+						"Laughin Buldar",
+						"Laurel of Bloodwood",
+						"Lindel",
+						"Lord Hawthorne",
+						"Lyssa",
+						"Mad Carthos",
+						"Mordrog	JITD",
+						"Nanok of the Blade",
+						"Nara the Fang",
+						"Okaluk and Rakash",
+						"One Fist",
+						"Red Scorpion",
+						"Ronan of the Wild",
+						"Runemaster Thorn",
+						"Runewitch Astarra",
+						"Sahla",
+						"Shiver",
+						"Silhouette",
+						"Sir Valadir",
+						"Spiritspeaker Mok",
+						"Steelhorns",
+						"Tahlia",
+						"Tatianna",
+						"Tetherys",
+						"Tobin Farslayer",
+						"Trenloe the Strong",
+						"Truthseer Kel",
+						"Varikas the Dead",
+						"Vyrah the Falconer",
+						"Zyla");
