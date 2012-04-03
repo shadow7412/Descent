@@ -1,4 +1,4 @@
-<ul class="box" id="postats"></ul>
+<ul class="hero" id="postats"></ul>
 City:
 <ul class="box">
 	<li>Train</li>

@@ -68,7 +68,7 @@ function updateOverworld(){
 		$("#hoinstances").html(instances);
 		var stats = "";
 		for(p in d.hero){
-			stats += "<li onclick=\"plUpgrade("+p+")\">"+d.hero[p].hero+"<br/>"+(d.heroes.conquest - d.hero[p].xp)+"XP</li>";
+			stats += "<li class=\""+d.hero[p].hero.cull()+"\" onclick=\"plUpgrade("+p+")\">"+d.hero[p].hero+"<br/>"+(d.heroes.conquest - d.hero[p].xp)+"XP</li>";
 		}
 		$('#postats').html(stats);
 	} else { //overlord
@@ -101,7 +101,7 @@ function updateInstance(){
 		var players = "";
 		var curses = "";
 		for(p in d.hero){
-			players += "<li onclick=\"action('death',"+p+")\">"+d.hero[p].hero+"<br/>L:"+d.hero[p].level+"<br/>C:"+d.hero[p].curses+"<br/>K: "+d.instances[d.heroes.location].deaths[p]+"</li>";
+			players += "<li class=\""+d.hero[p].hero.cull()+"\" onclick=\"action('death',"+p+")\">"+d.hero[p].hero+"<br/>L:"+d.hero[p].level+"<br/>C:"+d.hero[p].curses+"<br/>K: "+d.instances[d.heroes.location].deaths[p]+"</li>";
 			curses += "<li onclick=\"action('curse',"+p+")\">Curse<br/>"+d.hero[p].hero+"</li>";
 		}
 		$("#olkillplayer").html(players);
@@ -368,6 +368,9 @@ function isNumberKey(evt){
 		return false;
 	else
 		return true;
+}
+String.prototype.cull=function(){
+	return this.replace(/ /g,"_").toLowerCase()
 }
 //add ordinal function to Number object
 Number.prototype.ordinal=function(){

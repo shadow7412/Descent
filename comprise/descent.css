@@ -52,6 +52,162 @@ ul.box li:hover{
 .instancediscovered{
 	background:#AAA!important;
 }
+/* Hero portraits */
+.hero li{
+	display:inline-block;
+	text-align:center;
+	list-style-type:none;
+	width:150px;
+	height:150px;
+	color:white;
+}
+.hero li:hover{
+	color:cyan;
+}
+.andira_runehand{
+	background:url("images/hero/andira_runehand.jpg") -30px -30px;
+}
+.arvel_worldwalker{
+	background:url("images/hero/arvel_worldwalker.jpg") -30px -30px;
+}
+.aurim{
+	background:url("images/hero/aurim.jpg") -30px -30px;
+}
+.battlemage_jaes{
+	background:url("images/hero/battlemage_jaes.jpg") -30px -30px;
+}
+.bogran_the_shadow{
+	background:url("images/hero/bogran_the_shadow.jpg") -30px -30px;
+}
+.brother_gherinn{
+	background:url("images/hero/brother_gherinn.jpg") -30px -30px;
+}
+.brother_glyr{
+	background:url("images/hero/brother_glyr.jpg") -30px -30px;
+}
+.challara{
+	background:url("images/hero/challara.jpg") -30px -30px;
+}
+.corbin{
+	background:url("images/hero/corbin.jpg") -30px -30px;
+}
+.eliam{
+	background:url("images/hero/eliam.jpg") -30px -30px;
+}
+.grey_ker{
+	background:url("images/hero/grey_ker.jpg") -30px -30px;
+}
+.hugo_the_glorious{
+	background:url("images/hero/hugo_the_glorious.jpg") -30px -30px;
+}
+.ispher{
+	background:url("images/hero/ispher.jpg") -30px -30px;
+}
+.jonas_the_kind{
+	background:url("images/hero/jonas_the_kind.jpg") -30px -30px;
+}
+.karnon{
+	background:url("images/hero/karnon.jpg") -30px -30px;
+}
+.kirga{
+	background:url("images/hero/kirga.jpg") -30px -30px;
+}
+.krutzbeck{
+	background:url("images/hero/krutzbeck.jpg") -30px -30px;
+}
+.landrec_the_wise{
+	background:url("images/hero/landrec_the_wise.jpg") -30px -30px;
+}
+.laughin_buldar{
+	background:url("images/hero/laughin_buldar.jpg") -30px -30px;
+}
+.laurel_of_bloodwood{
+	background:url("images/hero/laurel_of_bloodwood.jpg") -30px -30px;
+}
+.lindel{
+	background:url("images/hero/lindel.jpg") -30px -30px;
+}
+.lord_hawthorne{
+	background:url("images/hero/lord_hawthorne.jpg") -30px -30px;
+}
+.lyssa{
+	background:url("images/hero/lyssa.jpg") -30px -30px;
+}
+.mad_carthos	jitd{
+	background:url("images/hero/mad_carthos	jitd.jpg") -30px -30px;
+}
+.mordrog	jitd{
+	background:url("images/hero/mordrog	jitd.jpg") -30px -30px;
+}
+.nanok_of_the_blade{
+	background:url("images/hero/nanok_of_the_blade.jpg") -30px -30px;
+}
+.nara_the_fang{
+	background:url("images/hero/nara_the_fang.jpg") -30px -30px;
+}
+.okaluk_and_rakash{
+	background:url("images/hero/okaluk_and_rakash.jpg") -30px -30px;
+}
+.one_fist{
+	background:url("images/hero/one_fist.jpg") -30px -30px;
+}
+.red_scorpion{
+	background:url("images/hero/red_scorpion.jpg") -30px -30px;
+}
+.ronan_of_the_wild{
+	background:url("images/hero/ronan_of_the_wild.jpg") -30px -30px;
+}
+.runemaster_thorn{
+	background:url("images/hero/runemaster_thorn.jpg") -30px -30px;
+}
+.runewitch_astarra{
+	background:url("images/hero/runewitch_astarra.jpg") -30px -30px;
+}
+.sahla{
+	background:url("images/hero/sahla.jpg") -30px -30px;
+}
+.shiver{
+	background:url("images/hero/shiver.jpg") -30px -30px;
+}
+.silhouette{
+	background:url("images/hero/silhouette.jpg") -30px -30px;
+}
+.sir_valadir{
+	background:url("images/hero/sir_valadir.jpg") -30px -30px;
+}
+.spiritspeaker_mok{
+	background:url("images/hero/spiritspeaker_mok.jpg") -30px -30px;
+}
+.steelhorns{
+	background:url("images/hero/steelhorns.jpg") -30px -30px;
+}
+.tahlia{
+	background:url("images/hero/tahlia.jpg") -30px -30px;
+}
+.tatianna{
+	background:url("images/hero/tatianna.jpg") -30px -30px;
+}
+.tetherys{
+	background:url("images/hero/tetherys.jpg") -30px -30px;
+}
+.tobin_farslayer{
+	background:url("images/hero/tobin_farslayer.jpg") -30px -30px;
+}
+.trenloe_the_strong{
+	background:url("images/hero/trenloe_the_strong.jpg") -30px -30px;
+}
+.truthseer_kel{
+	background:url("images/hero/truthseer_kel.jpg") -30px -30px;
+}
+.varikas_the_dead{
+	background:url("images/hero/varikas_the_dead.jpg") -30px -30px;
+}
+.vyrah_the_falconer{
+	background:url("images/hero/vyrah_the_falconer.jpg") -30px -30px;
+}
+.zyla{
+	background:url("images/hero/zyla.jpg") -30px -30px;
+}
 /* Setup screens*/
 .campaignselect{
 	background:#CCC;
