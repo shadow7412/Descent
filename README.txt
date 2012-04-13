@@ -1,3 +1,11 @@
+Firstly:
+	All art, character names, dungeon names, procedures, terminology is property of fantasyflightgames.
+	This tool is not meant or designed to replace the game, nor any part of it, but just to make keeping a notebook a little bit easier.
+	To use this tool you must own the board game "Descent - Sea of Blood".
+	The source code however - is open source.
+
+Anyway, with that over with:
+
 Purpose:
 Replace the notebook with a web application that both heroes and overlords have open.
 It must:
