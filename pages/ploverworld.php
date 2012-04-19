@@ -1,9 +1,14 @@
+<ul class="hero" id="postats"></ul>
 City:
-<ul>
+<ul class="box">
 	<li>Train</li>
 	<li>Alchemist</li>
 	<li>Port</li>
-	<li>Pub</li>
+	<li onclick="plRumour()">Pub</li>
+</ul>
+<ul class="box">
+	<li onclick="action('enter','Encounter')">Encounter</li>
+	<li onclick="action('enter','Lieutenant Battle')">Lieutenant Battle</li>
 </ul>
 Enter Instance:
-<ul class="instances box"></ul>
+<ul id="hoinstances" class="box"><!-- Populated by javascript--></ul>

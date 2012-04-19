@@ -2,8 +2,26 @@
 include "../include/db.php";
 $db = new db;
 //Some generic variables to save writing it out 4038 times.
-$instances = array("discovered"=>false,"completed"=>false,"fled"=>false);
-$cities = array("razed"=>false,"discovered"=>false);
+$instances = array(
+	"discovered"=>false,
+	"completed"=>false,
+	"fled"=>false,
+	"island"=>false,
+	"numberoflevels"=>3,
+	"level"=>1,
+	"gold"=>0,
+	"deaths"=>array(0,0,0,0),
+	"hero"=>0,
+	"overlord"=>0,
+	"physical"=>true,
+);
+$islands = $encounter = $lieu = $final = $instances;
+$islands['island'] = true;
+$encounter['island'] = true;
+$encounter['numberoflevels'] = $encounter['lieu'] = 1;
+$final['numberoflevels'] = 5;
+$final['physical'] = $encounter['physical'] = $lieu['physical'] = false;
+$cities = array("razed"=>false);
 
 //Create new campaign
 $bones = array(
@@ -14,42 +32,49 @@ $bones = array(
 		"player"=>$_POST['oname'],
 		"plot"=>$_POST['oplot'],
 		"avatar"=>$_POST['oavatar'],
-		"conquest"=>$_POST['oconquest'],
-		"spentconquest"=>0,
+		"conquest"=>intVal($_POST['oconquest']),
+		"xp"=>0,
+		"keep"=>$_POST['okeep'],
 	),
 	"heroes"=>array(
-		"conquest"=>$_POST['hconquest'],
-		"gold"=>$_POST['hgold'],
+		"conquest"=>intVal($_POST['hconquest']),
+		"gold"=>intVal($_POST['hgold']),
 		"location"=>"overworld",
+		"homeport"=>$_POST['hport'],
+		"rumour"=>null,
 	),
 	"hero"=>array(
 		array(
 			"player"=>$_POST['h1player'],
 			"hero"=>$_POST['h1name'],
-			"level"=>$_POST['h1level'],
+			"level"=>intVal($_POST['h1level']),
 			"curses"=>0,
-			"xp"=>$_POST['hxp'],
+			"xp"=>0,
+			"deaths"=>0,
 		),
 		array(
 			"player"=>$_POST['h2player'],
 			"hero"=>$_POST['h2name'],
-			"level"=>$_POST['h2level'],
+			"level"=>intVal($_POST['h2level']),
 			"curses"=>0,
-			"xp"=>$_POST['hxp'],
+			"xp"=>0,
+			"deaths"=>0,
 		),
 		array(
 			"player"=>$_POST['h3player'],
 			"hero"=>$_POST['h3name'],
-			"level"=>$_POST['h3level'],
+			"level"=>intVal($_POST['h3level']),
 			"curses"=>0,
 			"xp"=>0,
+			"deaths"=>0,
 		),
 		array(
 			"player"=>$_POST['h4player'],
 			"hero"=>$_POST['h4name'],
-			"level"=>$_POST['h4level'],
+			"level"=>intVal($_POST['h4level']),
 			"curses"=>0,
 			"xp"=>0,
+			"deaths"=>0,
 		),
 	),
 	"cities"=>array(
@@ -63,7 +88,11 @@ $bones = array(
 		"Trelton"=>$cities,
 	),
 	"instances"=>array(
-		"Azure Peaks"=>$instances,
+		//Situational
+		"Lieutenant Battle"=>$lieu,
+		"Encounter"=>$encounter,
+		"Final Battle"=>$final,
+		//Places
 		"Azure Peaks"=>$instances,
 		"Barren Moors"=>$instances,
 		"Bog of Vipers"=>$instances,
@@ -84,24 +113,29 @@ $bones = array(
 		"Stagwood Forest"=>$instances,
 		"Sunset Hills"=>$instances,
 		"Withered Plains"=>$instances,
-		"Bright Sea"=>$instances,
-		"Burning Bay"=>$instances,
-		"Cerridor Sea"=>$instances,
-		"Midnight Cove"=>$instances,
-		"Narrows of Gracor"=>$instances,
-		"Seda of the Redtyde"=>$instances,
-		"Shrouded Gulf"=>$instances,
-		"Terrents of Dreadpeace"=>$instances,
-		"Weeping Reach"=>$instances,
-		"Winnowing Straits"=>$instances,
-	)
+		"Bright Sea"=>$islands,
+		"Burning Bay"=>$islands,
+		"Cerridor Sea"=>$islands,
+		"Midnight Cove"=>$islands,
+		"Narrows of Gracor"=>$islands,
+		"Seda of the Redtyde"=>$islands,
+		"Shrouded Gulf"=>$islands,
+		"Terrents of Dreadpeace"=>$islands,
+		"Weeping Reach"=>$islands,
+		"Winnowing Straits"=>$islands,
+	),
+	"level"=>array(
+		"deck"=>0,
+		"bossdead"=>false,
+	),
 );
 //Try to convert to json
 $json = json_encode($bones);
 if($json===false) die("failed");
 //Place state into db.
 $dbjson = mysql_real_escape_string($json);
-if(@$db->query("INSERT INTO `campaign` (`created`,`state`) VALUES (CURRENT_TIMESTAMP, '$dbjson')")){
+$password = md5($_POST['password']);
+if(@$db->query("INSERT INTO `campaign` (`created`,`state`,`password`) VALUES (CURRENT_TIMESTAMP, '$dbjson','$password')")){
 	$db->commit();
 	$db->query("SELECT `id` FROM `campaign` ORDER BY `id` DESC LIMIT 1");
 	$row = $db->get();
